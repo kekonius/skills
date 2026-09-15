@@ -15,6 +15,12 @@ Area labels this repo uses: _<fill in from `gh label list`, or "none">_. Apply t
 
 When a skill says "publish to the issue tracker": create a GitHub issue. When a skill says "fetch the relevant ticket": `gh issue view <number> --comments`.
 
+## Pull requests as a triage surface
+
+**PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `triage` reads this flag.)_
+
+When set to `yes`, external PRs (author association `CONTRIBUTOR`, `FIRST_TIME_CONTRIBUTOR`, or `NONE`) run through the same labels and states as issues, using `gh pr view`, `gh pr diff`, `gh pr comment`, `gh pr edit --add-label`, and `gh pr close`.
+
 ## Pull requests
 
 - **Base branch**: `_<master or main>_`. Never commit to it directly.

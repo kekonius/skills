@@ -41,6 +41,9 @@ Skills for daily code work.
 - **[implement](./skills/engineering/implement/SKILL.md)**: Build one ticket: understand, plan with an ordered task list, stop at the approval gate, drive `tdd` slice by slice, record ADRs, verify, `code-review`, then hand off to `ship`.
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**: Implement a whole spec AFK on one branch: implementer subagents in worktrees across the ticket frontier, merged back one by one, reviewed, then handed to `ship` as a single PR.
 - **[contract-change](./skills/engineering/contract-change/SKILL.md)**: Ship a backend API change and the frontend client regeneration it forces, as two linked PRs, backend first. Run in the backend repo, then in the frontend repo.
+- **[triage](./skills/engineering/triage/SKILL.md)**: Move issues and external PRs through a state machine of triage roles: categorise, verify, grill if needed, and write agent briefs. For issues you didn't create or fully specify.
+- **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**: Plan a new module or project, too big for one session, as a shared map of decision tickets on GitHub, resolved one at a time until the way to the destination is clear.
+- **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**: Survey a codebase for deepening opportunities against its architecture rules and docs, present the candidates, then grill through whichever one you pick.
 - **[git-guardrails](./skills/engineering/git-guardrails/SKILL.md)**: Install the hook that blocks force-push, `reset --hard`, `clean -f`, discarding the working tree, and deleting the base branch, while push, merge, and feature-branch cleanup stay allowed. Once per machine.
 
 **Model-invoked**

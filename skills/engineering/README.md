@@ -15,6 +15,9 @@ Reachable only when you type them (`disable-model-invocation: true`).
 - **[implement](./implement/SKILL.md)**: Build one ticket: understand, plan with an ordered task list, stop at the approval gate, drive `tdd` slice by slice, record ADRs, verify, `code-review`, then hand off to `ship`.
 - **[implement-spec](./implement-spec/SKILL.md)**: Implement a whole spec AFK on one branch: implementer subagents in worktrees across the ticket frontier, merged back one by one, reviewed, then handed to `ship` as a single PR.
 - **[contract-change](./contract-change/SKILL.md)**: Ship a backend API change and the frontend client regeneration it forces, as two linked PRs, backend first. Run in the backend repo, then in the frontend repo.
+- **[triage](./triage/SKILL.md)**: Move issues and external PRs through a state machine of triage roles: categorise, verify, grill if needed, and write agent briefs. For issues you didn't create or fully specify.
+- **[wayfinder](./wayfinder/SKILL.md)**: Plan a new module or project, too big for one session, as a shared map of decision tickets on GitHub, resolved one at a time until the way to the destination is clear.
+- **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**: Survey a codebase for deepening opportunities against its architecture rules and docs, present the candidates, then grill through whichever one you pick.
 - **[git-guardrails](./git-guardrails/SKILL.md)**: Install the hook that blocks force-push, `reset --hard`, `clean -f`, discarding the working tree, and deleting the base branch, while push, merge, and feature-branch cleanup stay allowed. Once per machine.
 
 ## Model-invoked
