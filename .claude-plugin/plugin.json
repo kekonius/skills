@@ -19,5 +19,8 @@
     "typescript",
     "github"
   ],
-  "skills": []
+  "skills": [
+    "./skills/productivity/grilling",
+    "./skills/productivity/writing-for-agents"
+  ]
 }
