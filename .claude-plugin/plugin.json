@@ -26,7 +26,10 @@
     "./skills/engineering/to-spec",
     "./skills/engineering/to-tickets",
     "./skills/engineering/pick-up",
+    "./skills/engineering/tdd",
     "./skills/engineering/domain-modeling",
+    "./skills/engineering/codebase-design",
+    "./skills/engineering/code-review",
     "./skills/productivity/grill-me",
     "./skills/productivity/grilling",
     "./skills/productivity/writing-for-agents"
