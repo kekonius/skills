@@ -18,7 +18,7 @@ The body of a **Ticket**: a durable, behavioural specification with acceptance c
 A canonical state label on an **Issue**: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. `/setup-kekonius-skills` maps each role to the label string a repo actually uses.
 
 **Backlog**:
-The `docs/tasks/*.md` file some repos keep as a derived, human-readable view of open work. GitHub Issues are the source of truth; the backlog is regenerated from them, never edited as a second tracker.
+The `docs/tasks/*.md` checklist some repos keep as a human-readable, implementation-ordered view of the work, each task referencing its issue. GitHub Issues are the source of truth; `ship` ticks the matching task when it closes an issue, and nothing else edits the file as a tracker.
 
 **Ship**:
 The closing move of a change: verify, push, open the PR, wait for CI, merge, close the **Issue**, update the **Backlog**, delete the branch. Done by `/ship`.
@@ -47,4 +47,4 @@ A skill in `engineering/` or `productivity/`. Promoted skills ship in the plugin
 
 ## Flagged ambiguities
 
-- "backlog" used to mean both the tracker and the markdown file. Resolved: the tracker is GitHub Issues; **Backlog** is only the derived `docs/tasks` view.
+- "backlog" used to mean both the tracker and the markdown file. Resolved: the tracker is GitHub Issues; **Backlog** is only the `docs/tasks` checklist.

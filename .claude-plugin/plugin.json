@@ -20,6 +20,8 @@
     "github"
   ],
   "skills": [
+    "./skills/engineering/ask-kekonius",
+    "./skills/engineering/setup-kekonius-skills",
     "./skills/productivity/grilling",
     "./skills/productivity/writing-for-agents"
   ]
