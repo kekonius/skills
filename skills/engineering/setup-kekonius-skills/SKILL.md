@@ -30,6 +30,8 @@ Read whatever exists; don't assume:
 - ADR directories: `docs/decisions/`, `docs/adr/`, and any `src/*/docs/adr/`. Note the filename pattern in use (`ADR-0001-slug.md`, `0001-slug.md`).
 - `docs/tasks/*.md`: a backlog checklist.
 - `docs/agents/`: this skill's prior output.
+- Generated API clients: a package whose scripts run `openapi-typescript` (or another generator) against a fetched spec. Note the package name, the generate command, and the spec URL its fetch script reads.
+- Served API document: a backend that exposes `/openapi/*.json` (or `/swagger/*.json`). Note the route and the host's run command.
 - Monorepo signals: `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, several `.csproj` modules under `src/Modules/`. Present only in a genuinely multi-context repo; their absence means single-context, which is almost every repo.
 
 **Done when:** every bullet above has a finding, present or absent.
@@ -56,6 +58,8 @@ Area labels (module, layer, phase) are the repo's own. Record the ones that exis
 
 On **no**, record that the backlog is retired and the file is left alone.
 
+**Section E: Contract seams.** Skip when exploration found no generated client. When it found one, ask for each client package, in one exchange: the local path of the backend repo that serves its spec, and the command that starts that backend. Propose what you can infer (a sibling directory under the same parent, the run command in that repo's `CLAUDE.md`). The base branch, spec URL, and generate command come from exploration.
+
 **Done when:** every section has an answer or was skipped for a stated reason.
 
 ### 3. Confirm and edit
@@ -63,7 +67,7 @@ On **no**, record that the backlog is retired and the file is left alone.
 Show the user a draft of:
 
 - The `## Agent skills` block to add to `CLAUDE.md` or `AGENTS.md` (see step 4 for which)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, and `docs/agents/agent-brief.md`
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, `docs/agents/agent-brief.md`, and, when Section E ran, `docs/agents/contract-seams.md`
 
 Let them edit before writing.
 
@@ -97,6 +101,10 @@ GitHub Issues. [one line: base branch, merge method, backlog file or none]. See 
 ### Agent briefs
 
 Tickets that are `ready-for-agent` carry a brief in the format in `docs/agents/agent-brief.md`.
+
+### Contract seams
+
+[only when Section E ran: one line naming the client package(s) and the backend they consume]. See `docs/agents/contract-seams.md`.
 ```
 
 Then write the docs files from the seed templates in this skill folder, filling in what step 2 settled:
@@ -105,10 +113,11 @@ Then write the docs files from the seed templates in this skill folder, filling 
 - [triage-labels.md](./triage-labels.md): role to label mapping
 - [domain.md](./domain.md): domain doc consumer rules and layout
 - [agent-brief.md](./agent-brief.md): the ticket body format, copied verbatim
+- [contract-seams.md](./contract-seams.md): one row per generated client, only when Section E ran
 
 Create any missing triage labels now, per Section B.
 
-**Done when:** the block is in place, the four files exist, and `gh label list` shows all five roles.
+**Done when:** the block is in place, the files exist, and `gh label list` shows all five roles.
 
 ### 5. Done
 

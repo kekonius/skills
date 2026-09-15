@@ -86,4 +86,4 @@ git branch -D <branch>
 Five lines or fewer: the PR URL, the merge commit, the issues closed, the backlog task ticked (or "no backlog"), and one of:
 
 - **Contract impact: none.** Done.
-- **Contract impact: changes the OpenAPI surface.** The frontend client is now stale. When this ship was reached from `contract-change`, that skill continues; otherwise tell the user to run `/contract-change` so the seam gets closed.
+- **Contract impact: changes the OpenAPI surface.** The frontend client is now stale. When this ship was reached from `contract-change`, that skill continues; otherwise tell the user to open a session in the frontend repo and run `/contract-change <this PR number>` so the seam gets closed.

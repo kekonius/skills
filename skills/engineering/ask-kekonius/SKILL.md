@@ -29,7 +29,7 @@ Reach for **`/tdd`** on its own when you just want to build a concrete behaviour
 
 ### The contract seam
 
-When the change is a backend API change that the frontend consumes through the generated OpenAPI client, run the main flow through **`/contract-change`** instead of `/ship`: it ships the backend PR, starts the backend, regenerates the client in the frontend monorepo, fixes what the typecheck rejects, and ships that PR too. Two linked PRs, backend first, never a half-done seam.
+When the change is a backend API change that the frontend consumes through the generated OpenAPI client, run **`/contract-change`** in place of a bare `/ship`. In the backend repo it confirms the contract moved, ships the backend PR, and hands you the next command; in the frontend repo it brings the backend up at the merged contract, regenerates the client, fixes what the typecheck rejects, and ships that PR too. Two linked PRs, backend first, never a half-done seam. `/ship` on its own tells you when you needed this.
 
 ### Context hygiene
 
@@ -56,7 +56,7 @@ A starting situation that generates work, then merges onto the main flow.
 Not feature work, just upkeep.
 
 - **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surveys for **deepening opportunities** against the architecture tests and docs; picking one _generates an idea_ you take into the main flow at `/grill-with-docs`. It finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
-- **`/git-guardrails`** installs the hook that keeps an agent from rewriting history. Run once per machine. Push and merge stay allowed, because `/ship` needs them; `reset --hard`, `clean`, force-push, and branch deletion outside `/ship` are blocked.
+- **`/git-guardrails`** installs the hook that keeps an agent from destroying work. Run once per machine. Push, merge, and feature-branch cleanup stay allowed, because `/ship` needs them; force-push, `reset --hard`, `clean -f`, discarding the working tree, and deleting the base branch are blocked.
 
 ## Vocabulary underneath
 
