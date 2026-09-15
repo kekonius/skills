@@ -1,0 +1,23 @@
+{
+  "name": "kekonius",
+  "owner": {
+    "name": "kekonius",
+    "url": "https://github.com/kekonius"
+  },
+  "description": "kekonius's agent skills, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "kekonius-skills",
+      "source": "./",
+      "description": "Agent skills for one engineer's loop: grilling, spec and ticket flows, TDD, code review, shipping PRs, and the backend-to-frontend contract seam.",
+      "category": "engineering",
+      "keywords": [
+        "engineering",
+        "skills",
+        "tdd",
+        "code-review",
+        "grilling"
+      ]
+    }
+  ]
+}
