@@ -63,7 +63,7 @@ On **no**, record that the backlog is retired and the file is left alone.
 Show the user a draft of:
 
 - The `## Agent skills` block to add to `CLAUDE.md` or `AGENTS.md` (see step 4 for which)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, and `docs/agents/domain.md`
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, and `docs/agents/agent-brief.md`
 
 Let them edit before writing.
 
@@ -93,6 +93,10 @@ GitHub Issues. [one line: base branch, merge method, backlog file or none]. See 
 ### Domain docs
 
 [one line: "single-context" or "multi-context", ADR directory]. See `docs/agents/domain.md`.
+
+### Agent briefs
+
+Tickets that are `ready-for-agent` carry a brief in the format in `docs/agents/agent-brief.md`.
 ```
 
 Then write the docs files from the seed templates in this skill folder, filling in what step 2 settled:
@@ -100,10 +104,11 @@ Then write the docs files from the seed templates in this skill folder, filling 
 - [issue-tracker.md](./issue-tracker.md): GitHub conventions, PR conventions, backlog, wayfinding operations
 - [triage-labels.md](./triage-labels.md): role to label mapping
 - [domain.md](./domain.md): domain doc consumer rules and layout
+- [agent-brief.md](./agent-brief.md): the ticket body format, copied verbatim
 
 Create any missing triage labels now, per Section B.
 
-**Done when:** the block is in place, the three files exist, and `gh label list` shows all five roles.
+**Done when:** the block is in place, the four files exist, and `gh label list` shows all five roles.
 
 ### 5. Done
 

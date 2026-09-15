@@ -35,7 +35,11 @@ _<one of the two lines below; delete the other>_
 
 ## Agent briefs
 
-A ticket that is `ready-for-agent` carries an agent brief in its body or as the last triage comment: a behavioural spec with acceptance criteria and scope boundaries, written to survive refactors (types and contracts named, file paths and line numbers avoided). `pick-up` and `implement` read it as the contract; the rest of the thread is context.
+A ticket that is `ready-for-agent` carries an agent brief in its body or as the last triage comment. The format and principles are in `docs/agents/agent-brief.md`. `pick-up` and `implement` read it as the contract; the rest of the thread is context.
+
+## Tickets from a spec
+
+`to-tickets` publishes tickets as GitHub sub-issues of the spec issue, in dependency order, with native blocking dependencies between them and the `ready-for-agent` label. The commands are the same as the wayfinding operations below; only the labels differ.
 
 ## Wayfinding operations
 
