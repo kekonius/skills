@@ -29,3 +29,7 @@ The author's environment, established by inspection rather than interview:
 - Adding a tracker or a harness later is a deliberate change with its own ADR, not a branch in every skill.
 - Every promoted skill has four places to keep in sync (bucket README, top-level README, `plugin.json`, router); the consistency check exists to make that mechanical.
 - Version bumps are a human habit, not a bot. If the repo gains users, changesets can be added without restructuring.
+
+## Update, 2026-09-15: `ship` is model-invoked
+
+The inventory listed `ship` as user-invoked. While writing `implement` it became clear that `implement`, `implement-spec`, and `contract-change` all end by handing off to it, and a user-invoked skill cannot be reached by another skill. `ship` is therefore model-invoked, with a description whose user-facing triggers are narrow (ship, merge, open the PR) and whose other branch is the hand-off from those three flows. The same reasoning will apply to any other skill a flow must reach. `.agents/invocation.md` records the rule.

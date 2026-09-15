@@ -17,7 +17,9 @@ This is about **operative** instructions: a skill's own steps telling the agent 
 
 The Skill tool takes one skill per call. A step that needs two skills is two calls, not one call with two names: say so (`Call the Skill tool twice, for "grilling" and "domain-modeling"`).
 
-This whole convention only holds when the named skill is **model-invoked**. A user-invoked skill can never be reached this way. When a step's precondition is a user-invoked skill (e.g. `setup-kekonius-skills`), phrase it as an instruction for the human to act on: "tell the user to run `/setup-kekonius-skills`", never as a Skill tool call. The one exception is a hand-off at the end of a flow (`implement` ending in `ship`): there the skill tells the user the next command to type.
+This whole convention only holds when the named skill is **model-invoked**. A user-invoked skill can never be reached this way. When a step's precondition or hand-off is a user-invoked skill (e.g. `setup-kekonius-skills`, `pick-up` handing to `implement`), phrase it as an instruction for the human to act on: "tell the user to run `/implement`", never as a Skill tool call.
+
+A skill that several flows must hand off to is therefore model-invoked even when a human would rarely type it (`ship`): the description then carries the hand-off as a trigger branch ("or when implement hands off a reviewed branch") so the reach is deliberate, and the user-facing triggers stay narrow so it does not fire on its own.
 
 ## Passive vs active domain work
 
