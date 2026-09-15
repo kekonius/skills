@@ -77,6 +77,10 @@ General workflow tools, not code-specific.
 - **[grilling](./skills/productivity/grilling/SKILL.md)**: Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved. The interview primitive behind `grill-me`, `grill-with-docs`, `triage`, `wayfinder` and `improve-codebase-architecture`.
 - **[writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md)**: Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.
 
+### In progress
+
+Beta skills live in [`skills/in-progress/`](./skills/in-progress/README.md). They are linked locally by the script above but not shipped in the plugin.
+
 ## Repo conventions
 
-See [CLAUDE.md](./CLAUDE.md) for the rules this repo follows, [.agents/invocation.md](./.agents/invocation.md) for the invocation model, and [.agents/adr/](./.agents/adr/) for why it is shaped this way.
+See [CLAUDE.md](./CLAUDE.md) for the rules this repo follows, [.agents/invocation.md](./.agents/invocation.md) for the invocation model, and [.agents/adr/](./.agents/adr/) for why it is shaped this way. `scripts/check-consistency.sh` checks that every skill is listed where it should be and nowhere else; CI runs it on every push.

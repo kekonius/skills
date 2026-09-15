@@ -1,6 +1,6 @@
 {
   "name": "kekonius-skills",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Agent skills for one engineer's loop: grilling, spec and ticket flows, TDD, code review, shipping PRs, and the backend-to-frontend contract seam. .NET and TypeScript, GitHub Issues, Claude Code.",
   "author": {
     "name": "kekonius",

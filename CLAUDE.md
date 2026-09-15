@@ -17,6 +17,8 @@ When writing or editing a skill, call the Skill tool with "writing-for-agents" f
 
 `.claude-plugin/plugin.json` carries the plugin version. Bump it by hand, in the same commit, whenever a promoted skill's behaviour changes: patch for a fix, minor for a new or removed skill. `.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace. Run `claude plugin validate . --strict` after touching either manifest.
 
+`scripts/check-consistency.sh` enforces the listing rules above (promoted skills present in the bucket README, top-level README, `plugin.json`, and the router; non-promoted skills absent from all but their bucket README; every link and manifest entry resolving; no em-dashes). Run it before committing; CI (`.github/workflows/check.yml`) runs it and the plugin validation on every push and pull request.
+
 To (re)link every skill outside `deprecated/` into `~/.claude/skills` and `~/.agents/skills`, run `scripts/link-skills.sh`. Each entry is a symlink into this repo, so a `git pull` keeps installed skills current; re-run the script after adding, removing, or renaming a skill.
 
 Skills that touch an issue tracker assume **GitHub Issues** via the `gh` CLI. There is no tracker abstraction; do not add one.
