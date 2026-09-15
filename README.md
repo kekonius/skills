@@ -34,10 +34,11 @@ Skills for daily code work.
 
 - **[ask-kekonius](./skills/engineering/ask-kekonius/SKILL.md)**: Ask which skill or flow fits your situation. A router over the skills in this repo.
 - **[setup-kekonius-skills](./skills/engineering/setup-kekonius-skills/SKILL.md)**: Configure this repo for the engineering skills (GitHub labels, PR conventions, ADR layout, backlog file). Run once per repo.
+- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline, with a threat-model pass when the change touches auth, tenancy, or money.
 
 **Model-invoked**
 
-_(none yet)_
+- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**: Actively build and sharpen a project's domain model by challenging terms, stress-testing with scenarios, and updating `CONTEXT.md` and `docs/decisions/ADR-NNNN` inline.
 
 ### Productivity
 
@@ -45,7 +46,7 @@ General workflow tools, not code-specific.
 
 **User-invoked**
 
-_(none yet)_
+- **[grill-me](./skills/productivity/grill-me/SKILL.md)**: Get relentlessly interviewed about a plan or design until every branch of the design tree is resolved.
 
 **Model-invoked**
 

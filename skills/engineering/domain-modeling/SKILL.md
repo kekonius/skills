@@ -1,0 +1,64 @@
+---
+name: domain-modeling
+description: Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a CONTEXT.md, or recording, editing, or superseding an ADR.
+---
+
+# Domain Modeling
+
+Actively build and sharpen the project's domain model as you design. This is the *active* discipline: challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. (Merely *reading* `CONTEXT.md` for vocabulary is not this skill: that's a one-line habit any skill can do. This skill is for when you're changing the model, not just consuming it.)
+
+## Where the files live
+
+If `docs/agents/domain.md` exists, it names the ADR directory and filename pattern for this repo; follow it. Otherwise, most repos have a single context:
+
+```
+/
+├── CONTEXT.md
+├── docs/
+│   └── decisions/
+│       ├── README.md                       ← the index table
+│       ├── _template.md
+│       ├── ADR-0001-event-sourced-orders.md
+│       └── ADR-0002-postgres-for-write-model.md
+└── src/
+```
+
+If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives, and each context keeps its own `CONTEXT.md` and `docs/decisions/` beside its code.
+
+Some repos carry binding architecture or convention docs (`docs/architecture/`, `docs/conventions/`) that embed their own historical decision logs. Reference those by their existing ids; never renumber or move them. New decisions go in the ADR directory.
+
+Create files lazily: only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no ADR directory exists, create it (with a `README.md` index and the `_template.md` from [ADR-FORMAT.md](./ADR-FORMAT.md)) when the first ADR is needed.
+
+## During the session
+
+### Challenge against the glossary
+
+When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'release' as X, but you seem to mean Y. Which is it?"
+
+### Sharpen fuzzy language
+
+When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the ledger Account or the user's sign-in? Those are different things."
+
+### Discuss concrete scenarios
+
+When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that probe edge cases and force the user to be precise about the boundaries between concepts.
+
+### Cross-reference with code and the binding docs
+
+When the user states how something works, check whether the code agrees, and whether an existing ADR or architecture doc already decided it. If you find a contradiction, surface it: "Your code posts entries as mutable, but ADR-0005 says posted entries are immutable. Which is right?" A decision that contradicts a binding doc is not made quietly: it is a new ADR that supersedes the old one, and the doc is updated to point at it.
+
+### Update CONTEXT.md inline
+
+When a term is resolved, update `CONTEXT.md` right there. Don't batch these up: capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+
+`CONTEXT.md` should be totally devoid of implementation details. Do not treat `CONTEXT.md` as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
+
+### Offer ADRs sparingly
+
+Only offer to create an ADR when all three are true:
+
+1. **Hard to reverse**: the cost of changing your mind later is meaningful
+2. **Surprising without context**: a future reader will wonder "why did they do it this way?"
+3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+
+If any of the three is missing, skip the ADR. When all three hold, write it in the session, using the format in [ADR-FORMAT.md](./ADR-FORMAT.md), and add its row to the index. An ADR written a week later from memory records what was built, not why.

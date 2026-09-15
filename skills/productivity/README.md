@@ -6,7 +6,7 @@ General workflow tools, not code-specific.
 
 Reachable only when you type them (`disable-model-invocation: true`).
 
-_(none yet)_
+- **[grill-me](./grill-me/SKILL.md)**: Get relentlessly interviewed about a plan or design until every branch of the design tree is resolved.
 
 ## Model-invoked
 

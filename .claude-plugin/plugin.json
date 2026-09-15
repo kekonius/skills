@@ -22,6 +22,9 @@
   "skills": [
     "./skills/engineering/ask-kekonius",
     "./skills/engineering/setup-kekonius-skills",
+    "./skills/engineering/grill-with-docs",
+    "./skills/engineering/domain-modeling",
+    "./skills/productivity/grill-me",
     "./skills/productivity/grilling",
     "./skills/productivity/writing-for-agents"
   ]
