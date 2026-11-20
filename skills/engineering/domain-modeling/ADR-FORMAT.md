@@ -21,7 +21,13 @@ If the directory has a `_template.md`, use it. Otherwise this one, which is the 
 
 ## Options
 
-{The genuine alternatives, each with its advantages and disadvantages. Two or three; if there was only one, the decision needed no ADR.}
+{The genuine alternatives: two or three, plus the smallest change as a baseline. If there was only one, the decision needed no ADR. Rate them on the few dimensions the decision actually turns on:}
+
+| Dimension | {Option A} | {Option B} | {Smallest change} |
+| --- | --- | --- | --- |
+| {dimension} | {Low / Med / High: one-line reason} | {...} | {...} |
+
+{Then walk one or two real scenarios from this system (a workflow, a failure, a load spike, a change request) through each option, and say what breaks, slows, or couples.}
 
 ## Decision
 
@@ -35,12 +41,17 @@ If the directory has a `_template.md`, use it. Otherwise this one, which is the 
 
 {What changes as a result: files, packages, follow-ups owed, known limitations.}
 
+**Trade-off accepted:** {what this decision deliberately gives up, in exchange for what.}
+
 ## Related
 
 {Links to the ADRs, conventions, and architecture docs this touches.}
 ```
 
-Sections may be short. A decision with two options and a one-line rationale is a five-line ADR in this shape; the shape is for the reader who scans fifty of them, not for padding.
+Sections may be short; the shape is for the reader who scans fifty of them, not for padding. Two rules hold however short the ADR is:
+
+- **Ratings are qualitative, with a reason.** Low, Med, or High against the other options, never an invented number. Real numbers only where they were measured (a benchmark, a latency budget, a monthly cost).
+- **The "Trade-off accepted:" line is required.** A decision that names no trade-off is unfinished: if you cannot see what it costs, you have not found the cost yet.
 
 ## Immutability
 
