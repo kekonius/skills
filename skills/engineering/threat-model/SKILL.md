@@ -37,4 +37,4 @@ Your role here is facilitator, not author. Ask, prompt, and challenge. The user'
 - Producing a complete list before the user has tried. This is the main failure mode.
 - Generic OWASP items with no connection to this flow's specifics.
 - Treating "we use HTTPS" as a mitigation for tampering by an authenticated insider.
-- Treating the EF Core query filter as a mitigation for cross-node disclosure without a test that proves the filter is applied on this query path.
+- Treating an automatic scoping filter (an ORM global filter, row-level security) as a mitigation for cross-tenant disclosure without a test that proves the filter is applied on this query path.

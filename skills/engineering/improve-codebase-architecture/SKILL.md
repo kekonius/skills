@@ -11,9 +11,9 @@ Surface architectural friction and propose **deepening opportunities**: refactor
 
 This command is _informed_ by the project's domain model, its binding rules, and a shared design vocabulary:
 
-- Call the Skill tool with "codebase-design" for the architecture vocabulary (**module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**) and its principles (the deletion test, "the interface is the test surface", "one adapter = hypothetical seam, two = real"). Use these terms exactly in every suggestion, and don't drift into "component," "service," "API," or "boundary."
+- Call the Skill tool with "codebase-design" for the architecture vocabulary (**module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**) and its principles (the deletion test, "the interface is the test surface", "one adapter = hypothetical seam, two = real"). Use these terms exactly in every suggestion, and don't drift into "component," "API," or "boundary," or into "service" for anything not deployed separately.
 - The domain language in `CONTEXT.md` gives names to good seams; the ADRs (directory per `docs/agents/domain.md`, default `docs/decisions/`) record decisions this command should not re-litigate.
-- The **architecture rules** the repo enforces with tests (NetArchTest, dependency-cruiser) and documents in its architecture and convention docs fix some seams in advance. A candidate that moves one of those seams is an ADR-sized proposal, marked as such, never a quiet refactor.
+- The **architecture rules** the repo enforces (with tests, compiler visibility, a linter, or contract tests between separately deployed services) and documents in its architecture and convention docs fix some seams in advance. A candidate that moves one of those seams is an ADR-sized proposal, marked as such, never a quiet refactor.
 
 ## Process
 
@@ -24,19 +24,19 @@ This command is _informed_ by the project's domain model, its binding rules, and
 - If the user named a direction (a module, a subsystem, a pain point), take it, and skip the inference below.
 - Otherwise, walk back a good stretch of the commit history (`git log --oneline --stat`) to find the codebase's hot spots, the files and areas that keep coming up, and let those paths pull your attention first. If the changes are scattered with no clear hot spot, widen the net.
 
-Read `CONTEXT.md`, the architecture and convention docs `CLAUDE.md` names, and the ADRs in the area first. Run the architecture tests once so you know the rules bite and where the suite already has coverage.
+Read `CONTEXT.md`, the architecture and convention docs `CLAUDE.md` names, and the ADRs in the area first. Run the architecture-rule checks once so you know the rules bite and where they already have coverage.
 
 Then spawn a sub-agent to walk the codebase. Don't follow rigid heuristics; explore organically and note where you experience friction:
 
 - Where does understanding one concept require bouncing between many small modules?
 - Where are modules **shallow**, with an interface nearly as complex as the implementation?
 - Where have pure functions been extracted just for testability, but the real bugs hide in how they're called (no **locality**)?
-- Where do tightly-coupled modules leak across their seams, or reach through a `.Contracts` project or package entry point with a type that carries more than the contract should?
+- Where do tightly-coupled modules leak across their seams, or reach through a module's interface with a type that carries more than the interface should?
 - Which parts of the codebase are untested, or hard to test through their current interface, or tested with a container where the rule lives in memory?
 
 Apply the **deletion test** to anything you suspect is shallow: would deleting it concentrate complexity, or just move it? A "yes, concentrates" is the signal you want.
 
-**Done when:** you have three to seven candidates, each tied to a hot spot or the user's direction, and none of them merely restates a rule the architecture tests already enforce.
+**Done when:** you have three to seven candidates, each tied to a hot spot or the user's direction, and none of them merely restates a rule the architecture rules already enforce.
 
 ### 2. Present candidates
 

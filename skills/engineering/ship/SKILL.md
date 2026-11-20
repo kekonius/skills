@@ -19,7 +19,7 @@ Collect the issue numbers from, in order: the argument the user passed, the bran
 
 ### 2. Verify
 
-Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, the defaults are `dotnet build`, `dotnet test`, and `dotnet format --verify-no-changes` for a .NET repo, and `pnpm typecheck && pnpm lint && pnpm test && pnpm build` for a pnpm repo. Architecture tests are part of the suite, never skipped.
+Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, call the Skill tool with "stack-conventions" and run the pack's default verify commands. Whatever enforces the repo's architecture rules (tests, compiler visibility, a linter, or contract tests between separately deployed services) runs as part of verification, never skipped.
 
 **Stop if** anything is red. Report the failing output and stop; the fix is an `implement` loop, not a shipping step.
 

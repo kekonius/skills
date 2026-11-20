@@ -41,7 +41,7 @@ When a decision made while building meets the ADR bar (hard to reverse, surprisi
 
 ### 6. Verify
 
-Build, then run the full test suite, the architecture tests, and the format check. Everything green.
+Run the repo's full verification as `ship` defines it: the documented commands, or the pack's default verify commands from "stack-conventions", including whatever enforces the architecture rules. Everything green.
 
 **Stop if** anything is red: fix it within the loop, or if the fix changes the plan, go back to the user.
 

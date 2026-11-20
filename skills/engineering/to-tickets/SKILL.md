@@ -28,7 +28,7 @@ Break the work into **tracer bullet** tickets.
 
 <vertical-slice-rules>
 
-- Each slice cuts a narrow but COMPLETE path through every layer (domain, application, infrastructure, API, client, tests): vertical, NOT a horizontal slice of one layer
+- Each slice cuts a narrow but COMPLETE path through every layer the change touches (from storage to UI, with its tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit in a single fresh context window
 - Any prefactoring should be done first

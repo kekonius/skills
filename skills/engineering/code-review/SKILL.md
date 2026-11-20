@@ -33,9 +33,11 @@ Look for the originating issue, in this order:
 
 ### 3. Identify the standards and architecture sources
 
-**Standards**: anything in the repo that documents how code should be written: `docs/conventions/coding-standards.md`, `CONTRIBUTING.md`, the conventions section of `CLAUDE.md`, an `.editorconfig` with rules tooling does not already enforce.
+**Standards**: anything in the repo that documents how code should be written: `docs/conventions/coding-standards.md`, `CONTRIBUTING.md`, the conventions section of `CLAUDE.md`, an `.editorconfig` with rules tooling does not already enforce, and the house opinions of the repo's stack pack.
 
-**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a multitenancy or authorization convention, a testing strategy), the ADRs in the area the diff touches, and the command that runs the architecture tests (`dotnet test tests/*.Architecture.Tests`, `pnpm lint` where dependency-cruiser is wired, or whatever the repo documents). Where the repo has none of these, the Architecture axis carries only the invariants below.
+**Stack pack**: call the Skill tool with "stack-conventions" and take from the loaded pack its house opinions and its architecture-rule enforcement and verify commands. Sub-agents cannot call skills, so step 4 pastes these excerpts into their prompts.
+
+**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a multitenancy or authorization convention, a testing strategy), the ADRs in the area the diff touches, and whatever enforces the repo's architecture rules: tests, compiler visibility, a linter, or contract tests between separately deployed services, with the commands that run them (as the repo documents, or from the pack). Where the repo has none of these, the Architecture axis carries only the invariants below.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
@@ -71,7 +73,7 @@ The Architecture axis always carries the **invariant baseline** below, which app
 **Standards sub-agent prompt** should include:
 
 - The full diff command and commit list.
-- The list of standards-source files you found in step 3, **plus the smell baseline pasted in full** (the sub-agent has no other access to it).
+- The list of standards-source files you found in step 3, the pack's house opinions pasted as documented standards, **plus the smell baseline pasted in full** (the sub-agent has no other access to it).
 - The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
@@ -83,8 +85,8 @@ The Architecture axis always carries the **invariant baseline** below, which app
 **Architecture sub-agent prompt** should include:
 
 - The diff command and commit list.
-- The list of architecture-source files and ADRs from step 3, the architecture test command, **plus the invariant baseline pasted in full**.
-- The brief: "First run the architecture test command and report its result verbatim. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any baseline invariant breach: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
+- The list of architecture-source files and ADRs from step 3, the pack's architecture-rule enforcement and the commands that check it, pasted, **plus the invariant baseline pasted in full**.
+- The brief: "First run the commands that check the architecture rules and report their results verbatim. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any baseline invariant breach: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
@@ -92,7 +94,7 @@ If the spec is missing, skip the Spec sub-agent and note this in the final repor
 
 Present the three reports under `## Standards`, `## Spec`, and `## Architecture` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the axes are deliberately separate (see _Why three axes_).
 
-End with a one-line summary per axis: total findings and the worst issue _within that axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent. A failing architecture test is reported as the worst issue on its axis regardless of anything else the sub-agent found.
+End with a one-line summary per axis: total findings and the worst issue _within that axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent. A failing architecture-rule check is reported as the worst issue on its axis regardless of anything else the sub-agent found.
 
 ## Why three axes
 
