@@ -19,9 +19,11 @@ Collect the issue numbers from, in order: the argument the user passed, the bran
 
 ### 2. Verify
 
-Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, call the Skill tool with "stack-conventions" and run the pack's default verify commands. Whatever enforces the repo's architecture rules (tests, compiler visibility, a linter, or contract tests between separately deployed services) runs as part of verification, never skipped.
+Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, call the Skill tool with "stack-conventions" and run the pack's default verify commands. Whatever enforces the repo's architecture rules runs as part of verification, never skipped: structure tests, compiler visibility, a linter, contract tests (including consumer-driven contract tests between separately deployed services), and latency-budget tests that guard a quality-attribute scenario.
 
 **Stop if** anything is red. Report the failing output and stop; the fix is an `implement` loop, not a shipping step.
+
+**Done when:** every check is green and you can name each kind of architecture-rule check that ran.
 
 ### 3. Commit what is outstanding
 
@@ -86,7 +88,7 @@ git branch -D <branch>
 
 ### 9. Report
 
-Five lines or fewer, plus one line per contract-impact entry: the PR URL, the merge commit, the issues closed, the backlog task ticked (or "no backlog"), and each of these that applies:
+Six lines or fewer, plus one line per contract-impact entry: the PR URL, the merge commit, the issues closed, the backlog task ticked (or "no backlog"), the kinds of architecture-rule check that ran, and each of these that applies:
 
 - **Contract impact: none.** Done.
 - **Contract impact: changes the OpenAPI surface a frontend consumes through a generated client.** The frontend client is now stale. When this ship was reached from `contract-change`, that skill continues; otherwise tell the user to open a session in the frontend repo and run `/contract-change <this PR number>` so the seam gets closed.

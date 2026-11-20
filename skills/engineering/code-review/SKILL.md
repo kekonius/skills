@@ -37,7 +37,7 @@ Look for the originating issue, in this order:
 
 **Stack pack**: call the Skill tool with "stack-conventions" and take from the loaded pack its house opinions and its architecture-rule enforcement and verify commands. Sub-agents cannot call skills, so step 4 pastes these excerpts into their prompts.
 
-**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a data-access or authorization convention, a testing strategy), the ADRs in the area the diff touches, and whatever enforces the repo's architecture rules: tests, compiler visibility, a linter, or contract tests between separately deployed services, with the commands that run them (as the repo documents, or from the pack). Where the repo has none of these, the Architecture axis carries only the invariants below.
+**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a data-access or authorization convention, a testing strategy), the ADRs in the area the diff touches, and whatever enforces the repo's architecture rules: structure tests, compiler visibility, a linter, contract tests (including consumer-driven contract tests between separately deployed services), and latency-budget tests that guard a quality-attribute scenario, with the commands that run them (as the repo documents, or from the pack). Where the repo has none of these, the Architecture axis carries only the invariants below.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
@@ -86,7 +86,7 @@ The Architecture axis always carries the **invariant baseline** below, which app
 
 - The diff command and commit list.
 - The list of architecture-source files and ADRs from step 3, the pack's architecture-rule enforcement and the commands that check it, pasted, **plus the invariant baseline and every entry of `docs/agents/invariants.md` pasted in full**.
-- The brief: "First run the commands that check the architecture rules and report their results verbatim. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any breach of a baseline or project invariant: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
+- The brief: "First run the commands that check the architecture rules (structure, contract, and latency-budget checks alike) and report each result verbatim, labelled by kind. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any breach of a baseline or project invariant: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 

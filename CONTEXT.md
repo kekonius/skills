@@ -33,7 +33,7 @@ A backend API change that also changes the generated OpenAPI client in the front
 The point in `/implement` where the plan and ordered task list are shown and no implementation code is written until the user approves.
 
 **Architecture rules**:
-The dependency and seam rules a repo enforces, by whatever enforces them: architecture tests, compiler visibility, a linter, or contract tests between separately deployed services. `/code-review` checks a diff against them as its third axis.
+The dependency and seam rules a repo enforces, by whatever enforces them: architecture tests, compiler visibility, a linter, contract tests (including consumer-driven contract tests between separately deployed services), or latency-budget tests that guard a quality-attribute scenario. `/code-review` checks a diff against them as its third axis.
 
 **Stack pack**:
 A file that maps the skills' concepts onto one language: module interface, architecture-rule enforcement, tests and test doubles, integration-test infrastructure, verify commands, house opinions, examples. Built in to `stack-conventions`, or repo-local under `docs/agents/packs/`. A repo's `docs/agents/stack.md` maps its paths to packs.
