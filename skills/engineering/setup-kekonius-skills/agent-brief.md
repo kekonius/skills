@@ -6,7 +6,7 @@ An **agent brief** is the body of a ticket that is `ready-for-agent`, or the las
 
 ## Principles
 
-**Durability over precision.** A ticket may sit for weeks while the codebase moves. Describe interfaces, types, contracts, and behaviour; name the types and signatures the agent should look for. Never reference file paths or line numbers, and never assume the current structure survives.
+**Durability over precision.** A ticket may sit for weeks while the codebase moves. Describe interfaces, types, contracts, and behaviour; name the types and signatures the agent should look for. Never reference file paths or line numbers, and never assume the current structure survives. One exception: when a prototype produced a snippet that encodes a decision more precisely than prose can (a state machine, a reducer, a schema, a type shape), inline its decision-rich part and note that it came from a prototype.
 
 **Behavioural, not procedural.** Describe what the system should do, not how to implement it. The agent explores the codebase fresh and makes its own implementation decisions.
 

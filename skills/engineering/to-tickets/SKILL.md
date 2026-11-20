@@ -68,5 +68,3 @@ Publish one issue per ticket in dependency order (blockers first), so each ticke
 Then report the list: number, title, blocked by. Do NOT close or modify the spec issue beyond attaching children.
 
 **Done when:** every approved ticket is an open issue with the label, the brief, its parent link, and every blocking edge wired, and `gh api repos/{owner}/{repo}/issues/<n> --jq .issue_dependencies_summary.blocked_by` agrees with the plan for each.
-
-In the brief, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
