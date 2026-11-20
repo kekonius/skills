@@ -14,7 +14,7 @@ A **flow** is a path through the skills. Most paths run along one **main flow**,
 
 The route most work travels. You have an idea and want it built and merged.
 
-1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a repo**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No repo? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive.) When the change touches auth, tenancy, or money, it pulls in **`/threat-model`** so the STRIDE pass happens before the spec, not after the PR.
+1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a repo**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No repo? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive.) When the change touches auth, tenancy, or money, it pulls in **`/threat-model`** so the STRIDE pass happens before the spec, not after the PR. When it touches events between modules or services, a latency or availability target, or a service split, it pulls in **`/quality-attributes`** so the vital few are measurable before the spec.
 2. **Branch: can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through **`/prototype`**, bridged by **`/handoff`** in both directions (a prototype lives in its own directory; see Phase boundaries).
 3. **Branch: is this a multi-session build?**
    - **Yes** → **`/to-spec`** (turn the thread into a spec issue), then **`/to-tickets`** to split it into tracer-bullet tickets on GitHub, each `ready-for-agent`, each declaring its blocking edges. Then either:
