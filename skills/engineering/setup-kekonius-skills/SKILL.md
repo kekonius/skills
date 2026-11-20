@@ -1,6 +1,6 @@
 ---
 name: setup-kekonius-skills
-description: "Configure this repo for the engineering skills: GitHub labels, pull request conventions, domain doc layout, and the backlog file. Run once per repo before first use of the other engineering skills."
+description: "Configure this repo for the engineering skills: GitHub labels, pull request conventions, domain doc layout, the backlog file, stack packs, and project invariants. Run once per repo before first use of the other engineering skills."
 disable-model-invocation: true
 ---
 
@@ -11,6 +11,8 @@ Scaffold the per-repo configuration the engineering skills assume:
 - **Issue tracker**: GitHub Issues, always. What this records is *how this repo* uses them: labels, PR conventions, merge method, the backlog file.
 - **Triage labels**: the label strings for the five canonical triage roles.
 - **Domain docs**: where `CONTEXT.md` and ADRs live, and the rules for reading them.
+- **Stack**: which stack packs `stack-conventions` loads for which paths.
+- **Invariants**: project rules `code-review` holds on every diff, on top of its baseline.
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -30,9 +32,11 @@ Read whatever exists; don't assume:
 - ADR directories: `docs/decisions/`, `docs/adr/`, and any `src/*/docs/adr/`. Note the filename pattern in use (`ADR-0001-slug.md`, `0001-slug.md`).
 - `docs/tasks/*.md`: a backlog checklist.
 - `docs/agents/`: this skill's prior output.
-- Generated API clients: a package whose scripts run `openapi-typescript` (or another generator) against a fetched spec. Note the package name, the generate command, and the spec URL its fetch script reads.
+- Language manifests, per directory: `*.csproj` or `*.slnx`, `Cargo.toml`, `pyproject.toml`, `package.json` (and whether it depends on `react`). Note the path each language lives under, and any verify commands `CLAUDE.md` or CI runs.
+- Generated API clients: a package whose scripts run an OpenAPI client generator against a fetched spec. Note the package name, the generate command, and the spec URL its fetch script reads.
 - Served API document: a backend that exposes `/openapi/*.json` (or `/swagger/*.json`). Note the route and the host's run command.
-- Monorepo signals: `pnpm-workspace.yaml`, a `workspaces` field in `package.json`, several `.csproj` modules under `src/Modules/`. Present only in a genuinely multi-context repo; their absence means single-context, which is almost every repo.
+- Monorepo signals: a workspace manifest (`pnpm-workspace.yaml`, a `workspaces` field, a Cargo workspace, a solution with several module projects) whose modules each look like their own context. Present only in a genuinely multi-context repo; their absence means single-context, which is almost every repo.
+- Project invariants: rules a binding architecture or convention doc declares that a reviewer must hold on every change (data scoping, append-only records, writes into another module's data), and `docs/agents/invariants.md` if it exists.
 
 **Done when:** every bullet above has a finding, present or absent.
 
@@ -60,6 +64,14 @@ On **no**, record that the backlog is retired and the file is left alone.
 
 **Section E: Contract seams.** Skip when exploration found no generated client. When it found one, ask for each client package, in one exchange: the local path of the backend repo that serves its spec, and the command that starts that backend. Propose what you can infer (a sibling directory under the same parent, the run command in that repo's `CLAUDE.md`). The base branch, spec URL, and generate command come from exploration.
 
+**Section F: Stack.** Propose a path-to-packs mapping from the manifests found: each path with its built-in pack (`csharp`, `rust`, `python`, `typescript`, and `react` on top of `typescript`). Add verify commands only where `CLAUDE.md` or CI runs commands that differ from the pack defaults. For a language with no built-in pack, name the language anyway: `stack-conventions` falls back to its standard idioms and offers to draft a repo-local pack under `docs/agents/packs/`. Ask one question: is this mapping right?
+
+**Section G: Invariants.** Ask one question:
+
+> Does this repo have project invariants `code-review` should hold on every diff? (recommended: **yes** when exploration found any, otherwise **no**)
+
+On **yes**, propose the invariants exploration found, each as one line in the template's shape, and offer the template's worked examples (scoping bypass, immutability breach) when the repo is multi-tenant or keeps append-only records. On **no**, write no file.
+
 **Done when:** every section has an answer or was skipped for a stated reason.
 
 ### 3. Confirm and edit
@@ -67,7 +79,7 @@ On **no**, record that the backlog is retired and the file is left alone.
 Show the user a draft of:
 
 - The `## Agent skills` block to add to `CLAUDE.md` or `AGENTS.md` (see step 4 for which)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, `docs/agents/agent-brief.md`, and, when Section E ran, `docs/agents/contract-seams.md`
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, `docs/agents/agent-brief.md`, `docs/agents/stack.md`, and, when they ran, `docs/agents/contract-seams.md` (Section E) and `docs/agents/invariants.md` (Section G)
 
 Let them edit before writing.
 
@@ -105,6 +117,14 @@ Tickets that are `ready-for-agent` carry a brief in the format in `docs/agents/a
 ### Contract seams
 
 [only when Section E ran: one line naming the client package(s) and the backend they consume]. See `docs/agents/contract-seams.md`.
+
+### Stack
+
+[one line: each path and its packs]. See `docs/agents/stack.md`.
+
+### Invariants
+
+[only when Section G produced entries: one line naming them]. See `docs/agents/invariants.md`.
 ```
 
 Then write the docs files from the seed templates in this skill folder, filling in what step 2 settled:
@@ -114,6 +134,8 @@ Then write the docs files from the seed templates in this skill folder, filling 
 - [domain.md](./domain.md): domain doc consumer rules and layout
 - [agent-brief.md](./agent-brief.md): the ticket body format, copied verbatim
 - [contract-seams.md](./contract-seams.md): one row per generated client, only when Section E ran
+- [stack.md](./stack.md): the path-to-packs mapping from Section F
+- [invariants.md](./invariants.md): the entries confirmed in Section G, with the worked-examples section removed, only when Section G produced entries
 
 Create any missing triage labels now, per Section B.
 
@@ -121,4 +143,4 @@ Create any missing triage labels now, per Section B.
 
 ### 5. Done
 
-Tell the user the setup is complete and that `to-spec`, `to-tickets`, `triage`, `wayfinder`, `pick-up`, `ship`, and `contract-change` now read from `docs/agents/`. They can edit those files directly later; re-running this skill is only needed to start from scratch.
+Tell the user the setup is complete and that `to-spec`, `to-tickets`, `triage`, `wayfinder`, `pick-up`, `ship`, `code-review`, `stack-conventions`, and `contract-change` now read from `docs/agents/`. They can edit those files directly later; re-running this skill is only needed to start from scratch.
