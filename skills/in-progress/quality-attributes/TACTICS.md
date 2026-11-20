@@ -16,7 +16,7 @@ Trade-off: caches and replicas buy latency with staleness and memory; concurrenc
 - **Recover, reintroduce**: shadow mode; state resynchronisation; escalating restart; non-stop forwarding.
 - **Prevent faults**: removal from service; transactions; predictive model; exception prevention.
 
-Trade-off: redundancy costs money and consistency effort; a retry against a receiver that is not idempotent duplicates work.
+Trade-off: redundancy costs money and consistency effort; a retry against a receiver that is not idempotent duplicates work (see [MODULE-INTEGRATION.md](MODULE-INTEGRATION.md)).
 
 ## Deployability: get a validated change into production within time, cost, and risk bounds
 

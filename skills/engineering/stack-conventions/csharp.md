@@ -7,6 +7,7 @@
 - **Tests**: xUnit with AwesomeAssertions. Ports are constructor parameters (`RefundHandler(IPaymentGateway gateway, IClock clock)`); a handler never `new`s an external client. Time comes through `IClock`.
 - **Test doubles**: NSubstitute for a port with one or two members; a hand-written in-memory adapter when the port has state (an in-memory outbox, a gateway that records refunds).
 - **Integration**: Testcontainers for PostgreSQL and RabbitMQ, never an in-memory EF provider pretending to be the engine. API tests go through `WebApplicationFactory`.
+- **Integration events**: MassTransit on RabbitMQ. Events are records in the producing module's `.Contracts`. The MassTransit EF Core transactional outbox writes an event in the same `SaveChanges` as the change, and its inbox makes consumers idempotent by recording processed message ids.
 - **Verify**: `dotnet build`, `dotnet test`, `dotnet format --verify-no-changes`. Dev: `dotnet run --project <host>`.
 
 ## House opinions

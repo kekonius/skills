@@ -42,6 +42,8 @@ State latency as a percentile tail (p95, p99), never a mean. Sharpen a response 
 
 For each High/High scenario, pick the tactics that serve it from [TACTICS.md](TACTICS.md) (performance, availability, deployability, modifiability), and name the trade-off each accepts: a tactic that helps one attribute usually costs another. A choice that is hard to reverse becomes an ADR: call the Skill tool with "domain-modeling".
 
+When a scenario crosses modules or services (integration events or messaging, data another module owns, splitting or merging a service), read [MODULE-INTEGRATION.md](MODULE-INTEGRATION.md): granularity, data ownership, outbox and idempotent consumers, sagas, contracts, and replication lag.
+
 ## 5. Make each measure checkable
 
 Name the check that guards each response measure (a latency-budget test, a contract test, an availability probe) next to its scenario. It runs with the repo's architecture rules, and `tdd` builds it like any other test. The scenarios and their checks go where the decision is recorded: the spec's Implementation Decisions, or the ADR.
