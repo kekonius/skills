@@ -1,6 +1,6 @@
 {
   "name": "kekonius-skills",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Agent skills for one engineer's loop: grilling, spec and ticket flows, TDD, code review, shipping PRs, and contract changes across repos. Any language through stack packs (C#, Rust, Python, TypeScript, React), GitHub Issues, Claude Code.",
   "author": {
     "name": "kekonius",
@@ -38,6 +38,7 @@
     "./skills/engineering/domain-modeling",
     "./skills/engineering/codebase-design",
     "./skills/engineering/stack-conventions",
+    "./skills/engineering/quality-attributes",
     "./skills/engineering/code-review",
     "./skills/engineering/prototype",
     "./skills/engineering/diagnosing-bugs",
