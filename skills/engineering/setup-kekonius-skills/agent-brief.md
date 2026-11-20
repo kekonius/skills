@@ -6,18 +6,18 @@ An **agent brief** is the body of a ticket that is `ready-for-agent`, or the las
 
 ## Principles
 
-**Durability over precision.** A ticket may sit for weeks while the codebase moves. Describe interfaces, types, contracts, and behaviour; name the types and signatures the agent should look for. Never reference file paths or line numbers, and never assume the current structure survives.
+**Durability over precision.** A ticket may sit for weeks while the codebase moves. Describe interfaces, types, contracts, and behaviour; name the types and signatures the agent should look for. Never reference file paths or line numbers, and never assume the current structure survives. One exception: when a prototype produced a snippet that encodes a decision more precisely than prose can (a state machine, a reducer, a schema, a type shape), inline its decision-rich part and note that it came from a prototype.
 
 **Behavioural, not procedural.** Describe what the system should do, not how to implement it. The agent explores the codebase fresh and makes its own implementation decisions.
 
-- Good: "`PostJournalEntry` rejects an entry whose lines do not balance in the functional currency with a `422` and a problem details body naming the difference."
-- Bad: "Open the posting handler and add an `if` on line 42."
+- Good: "`RefundOrder` rejects a refund larger than the amount captured with a `422` and a problem details body naming the difference."
+- Bad: "Open the refund handler and add an `if` on line 42."
 
 **Complete acceptance criteria.** Every criterion is independently verifiable, ideally by a named test or a command. "Works correctly" is not a criterion.
 
 **Explicit scope boundaries.** State what is out of scope, so the agent neither gold-plates nor guesses about adjacent features.
 
-**Contract impact stated.** Say whether the ticket changes the HTTP surface the frontend's generated client consumes. If it does, `ship` is replaced by `contract-change` for this ticket, and the brief says so.
+**Contract impact stated.** List every contract another deployable consumes that the ticket changes (an HTTP API, an integration event or message schema, a shared schema), each with its consuming repos, or say "none". An entry that changes the OpenAPI surface a frontend consumes through a generated client means `ship` is replaced by `contract-change` for this ticket, and the brief says so.
 
 ## Template
 
@@ -38,7 +38,7 @@ What should happen after the work is done. Specific about edge cases and error c
 - `Method()` contract: what it returns now vs what it should return
 - Configuration or schema shape: anything new
 
-**Contract impact:** none / changes the OpenAPI surface (list the endpoints)
+**Contract impact:** none / one line per changed contract: `<contract>` (HTTP API, event or message schema, or shared schema): what changes. Consumers: <repos>
 
 **Acceptance criteria:**
 - [ ] Specific, testable criterion
@@ -59,33 +59,32 @@ What should happen after the work is done. Specific about edge cases and error c
 ## Agent brief
 
 **Category:** bug
-**Summary:** Node settings accept writes on an inactive node
+**Summary:** Refunds are accepted on a cancelled order
 
 **Current behaviour:**
-`PUT /nodes/{id}/settings/{key}` succeeds when the target node has status
-`Inactive`. The settings history then shows edits on a node that should be
-frozen, and ADR-0053 says every write on an inactive node is refused.
+`POST /orders/{id}/refunds` succeeds when the order has status `Cancelled`.
+The payment provider is then asked to refund money that was never captured,
+and ADR-0021 says a cancelled order accepts no further money movement.
 
 **Desired behaviour:**
-Every settings write on an inactive node is refused with `409` and a problem
-details body whose `type` names the inactive-node rule. Reads are unaffected.
+Every refund request on a cancelled order is refused with `409` and a problem
+details body whose `type` names the cancelled-order rule. Reads are unaffected.
 
 **Key interfaces:**
-- The node settings command consumer: the inactive check runs before any
-  validation of the value, so the response is the same for a bad value on an
-  inactive node
-- `NodeStatus`: no change
+- The refund command handler: the cancelled check runs before the amount is
+  validated, so the response is the same for a bad amount on a cancelled order
+- `OrderStatus`: no change
 
 **Contract impact:** none (the `409` is already in the contract for this route)
 
 **Acceptance criteria:**
-- [ ] An integration test writes a setting on an inactive node and asserts `409`
-- [ ] The same test asserts the settings history is unchanged
-- [ ] Writes on an active node still succeed (existing tests stay green)
+- [ ] An integration test requests a refund on a cancelled order and asserts `409`
+- [ ] The same test asserts the payment gateway received no refund
+- [ ] Refunds on a shipped order still succeed (existing tests stay green)
 
 **Out of scope:**
-- Reactivating a node
-- Settings inheritance rules
+- Reopening a cancelled order
+- Partial cancellation
 
 **Blocked by:** none
 ```
@@ -96,35 +95,34 @@ details body whose `type` names the inactive-node rule. Reads are unaffected.
 ## Agent brief
 
 **Category:** enhancement
-**Summary:** List journal entries for the Journal entries page
+**Summary:** List a customer's orders for the Order history page
 
 **Current behaviour:**
-The ledger exposes `GET /journal-entries/{id}` only. The frontend's Journal
-entries page has nothing to list, so it shows a placeholder.
+The Orders module exposes `GET /orders/{id}` only. The frontend's Order
+history page has nothing to list, so it shows a placeholder.
 
 **Desired behaviour:**
-`GET /journal-entries?fiscalYear=<id>&page=<n>&pageSize=<n>` returns a page of
-entry summaries (id, verification number, date, description, total in the
-functional currency, status) for the operating node, newest first. Tenant
-scoping applies through the global query filter; no per-query predicate.
+`GET /orders?page=<n>&pageSize=<n>` returns a page of order summaries (id,
+order number, date, status, total in the order's currency) for the signed-in
+customer, newest first. A customer only ever sees their own orders.
 
 **Key interfaces:**
-- A new read model query in the ledger's Application layer, served from the
-  read store, never from the aggregate
-- The paged response shape already used by the accounts list, reused as is
+- A new read model query in the Orders module, served from the read store,
+  never from the aggregate
+- The paged response shape already used by the product list, reused as is
 
-**Contract impact:** changes the OpenAPI surface: adds `GET /journal-entries`.
-Ship with `contract-change`.
+**Contract impact:** `GET /orders` (HTTP API): added. Consumers: the web
+frontend, through its generated client. Ship with `contract-change`.
 
 **Acceptance criteria:**
-- [ ] An integration test seeds three entries across two nodes and asserts the
-      list for one node returns only its entries, newest first
+- [ ] An integration test seeds three orders across two customers and asserts
+      the list for one customer returns only their orders, newest first
 - [ ] Paging beyond the last page returns an empty page, not an error
-- [ ] The architecture tests stay green
+- [ ] The architecture rules stay green
 - [ ] The frontend client regenerates without hand edits
 
 **Out of scope:**
-- Filtering by account or amount
+- Filtering by status or date
 - Exporting the list
 
 **Blocked by:** #104
@@ -135,8 +133,8 @@ Ship with `contract-change`.
 ```markdown
 ## Agent brief
 
-**Summary:** Fix the settings bug
+**Summary:** Fix the refund bug
 
-The settings thing is broken on inactive nodes. Look at the consumer in
-src/Modules/Tenancy/Application/NodeSettings/ and fix it, around line 150.
+The refund thing is broken on cancelled orders. Look at the handler in
+src/orders/refunds/ and fix it, around line 150.
 ```

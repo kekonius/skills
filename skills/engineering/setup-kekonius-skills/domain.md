@@ -30,11 +30,11 @@ Multi-context repo (a `CONTEXT-MAP.md` at the root):
 /
 ├── CONTEXT-MAP.md
 ├── docs/decisions/                    ← system-wide decisions
-└── src/Modules/
-    ├── GeneralLedger/
+└── src/
+    ├── orders/
     │   ├── CONTEXT.md
     │   └── docs/decisions/            ← module-specific decisions
-    └── Identity/
+    └── payments/
         ├── CONTEXT.md
         └── docs/decisions/
 ```

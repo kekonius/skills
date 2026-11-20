@@ -28,11 +28,11 @@ Break the work into **tracer bullet** tickets.
 
 <vertical-slice-rules>
 
-- Each slice cuts a narrow but COMPLETE path through every layer (domain, application, infrastructure, API, client, tests): vertical, NOT a horizontal slice of one layer
+- Each slice cuts a narrow but COMPLETE path through every layer the change touches (from storage to UI, with its tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit in a single fresh context window
 - Any prefactoring should be done first
-- A slice that changes the HTTP contract says so in its brief, so it ships with `contract-change`
+- A slice that changes a contract another deployable consumes says so in its brief's contract impact; one that changes the OpenAPI surface a frontend consumes through a generated client ships with `contract-change`
 
 </vertical-slice-rules>
 
@@ -47,7 +47,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
-- **Contract impact**: none, or the endpoints it changes
+- **Contract impact**: none, or each contract it changes and the repos that consume it
 
 Ask the user:
 
@@ -68,5 +68,3 @@ Publish one issue per ticket in dependency order (blockers first), so each ticke
 Then report the list: number, title, blocked by. Do NOT close or modify the spec issue beyond attaching children.
 
 **Done when:** every approved ticket is an open issue with the label, the brief, its parent link, and every blocking edge wired, and `gh api repos/{owner}/{repo}/issues/<n> --jq .issue_dependencies_summary.blocked_by` agrees with the plan for each.
-
-In the brief, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.

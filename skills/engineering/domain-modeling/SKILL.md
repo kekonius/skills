@@ -37,7 +37,7 @@ When the user uses a term that conflicts with the existing language in `CONTEXT.
 
 ### Sharpen fuzzy language
 
-When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the ledger Account or the user's sign-in? Those are different things."
+When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the customer's billing Account or their sign-in? Those are different things."
 
 ### Discuss concrete scenarios
 
@@ -45,7 +45,7 @@ When domain relationships are being discussed, stress-test them with specific sc
 
 ### Cross-reference with code and the binding docs
 
-When the user states how something works, check whether the code agrees, and whether an existing ADR or architecture doc already decided it. If you find a contradiction, surface it: "Your code posts entries as mutable, but ADR-0005 says posted entries are immutable. Which is right?" A decision that contradicts a binding doc is not made quietly: it is a new ADR that supersedes the old one, and the doc is updated to point at it.
+When the user states how something works, check whether the code agrees, and whether an existing ADR or architecture doc already decided it. If you find a contradiction, surface it: "Your code lets a shipped order be edited, but ADR-0005 says shipped orders are immutable. Which is right?" A decision that contradicts a binding doc is not made quietly: it is a new ADR that supersedes the old one, and the doc is updated to point at it.
 
 ### Update CONTEXT.md inline
 
@@ -55,10 +55,4 @@ When a term is resolved, update `CONTEXT.md` right there. Don't batch these up: 
 
 ### Offer ADRs sparingly
 
-Only offer to create an ADR when all three are true:
-
-1. **Hard to reverse**: the cost of changing your mind later is meaningful
-2. **Surprising without context**: a future reader will wonder "why did they do it this way?"
-3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
-
-If any of the three is missing, skip the ADR. When all three hold, write it in the session, using the format in [ADR-FORMAT.md](./ADR-FORMAT.md), and add its row to the index. An ADR written a week later from memory records what was built, not why.
+Only offer an ADR when the decision clears the bar in [ADR-FORMAT.md](./ADR-FORMAT.md): hard to reverse, surprising without context, and the result of a real trade-off. When it does, write it in the session in that format and add its row to the index. An ADR written a week later from memory records what was built, not why.

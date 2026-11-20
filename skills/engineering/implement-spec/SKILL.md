@@ -40,7 +40,7 @@ The PR conventions are in `docs/agents/issue-tracker.md`; if it is missing, tell
 
 7. **Review.** Call the Skill tool with "code-review" against the base branch. Hand every finding to a single **implementer subagent** on the PR branch to fix, then re-run the review once.
 
-8. **Verify.** Run the full suite, the architecture tests, and the format check on the PR branch. Everything green.
+8. **Verify.** Run the repo's full verification on the PR branch: the documented commands, or the pack's default verify commands from "stack-conventions", including whatever enforces the architecture rules. Everything green.
 
 9. **Clean up worktrees.** `git worktree remove` each implementer worktree and delete its branch.
 

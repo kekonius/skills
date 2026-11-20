@@ -1,13 +1,13 @@
 ---
 name: code-review
-description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along three axes: Standards (does the code follow this repo's documented coding standards?), Spec (does the code match what the originating issue asked for?), and Architecture (does it keep the repo's binding architecture rules and ADRs?). Runs the reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
+description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) on three axes, Standards, Spec, and Architecture, in parallel sub-agents. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
 ---
 
 Three-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
 - **Standards**: does the code conform to this repo's documented coding standards?
 - **Spec**: does the code faithfully implement the originating issue?
-- **Architecture**: does the code keep the repo's binding architecture rules, ADRs, and tenancy or security invariants?
+- **Architecture**: does the code keep the repo's binding architecture rules, ADRs, and project invariants?
 
 All three run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
 
@@ -33,9 +33,11 @@ Look for the originating issue, in this order:
 
 ### 3. Identify the standards and architecture sources
 
-**Standards**: anything in the repo that documents how code should be written: `docs/conventions/coding-standards.md`, `CONTRIBUTING.md`, the conventions section of `CLAUDE.md`, an `.editorconfig` with rules tooling does not already enforce.
+**Standards**: anything in the repo that documents how code should be written: `docs/conventions/coding-standards.md`, `CONTRIBUTING.md`, the conventions section of `CLAUDE.md`, an `.editorconfig` with rules tooling does not already enforce, and the house opinions of the repo's stack pack.
 
-**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a multitenancy or authorization convention, a testing strategy), the ADRs in the area the diff touches, and the command that runs the architecture tests (`dotnet test tests/*.Architecture.Tests`, `pnpm lint` where dependency-cruiser is wired, or whatever the repo documents). Where the repo has none of these, the Architecture axis carries only the invariants below.
+**Stack pack**: call the Skill tool with "stack-conventions" and take from the loaded pack its house opinions and its architecture-rule enforcement and verify commands. Sub-agents cannot call skills, so step 4 pastes these excerpts into their prompts.
+
+**Architecture**: the binding docs `CLAUDE.md` names (an architecture doc, a data-access or authorization convention, a testing strategy), the ADRs in the area the diff touches, and whatever enforces the repo's architecture rules: structure tests, compiler visibility, a linter, contract tests (including consumer-driven contract tests between separately deployed services), and latency-budget tests that guard a quality-attribute scenario, with the commands that run them (as the repo documents, or from the pack). Where the repo has none of these, the Architecture axis carries only the invariants below.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
@@ -59,32 +61,34 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 The Architecture axis always carries the **invariant baseline** below, which applies even when a repo documents nothing:
 
-- **Boundary reach**: a module referencing another module's internals rather than its contract or public entry point.
+- **Interface bypass**: a module referencing another module's internals rather than its interface.
 - **Layer inversion**: domain code depending on infrastructure (an ORM, a bus, a framework) rather than the other way round.
-- **Scoping bypass**: a query or write on tenant-scoped data that sidesteps the automatic filter or stamping (raw SQL, `IgnoreQueryFilters`, bulk verbs, a hand-built command).
+- **Non-idempotent consumer**: a handler for an integration event or message that changes state with no guard against redelivery (no processed-message record, no natural idempotency).
+- **Foreign write**: a write into data another module or service owns (its tables, its schema, its database) instead of a call to the owner's interface or an event the owner consumes.
 - **Secrets in code**: a connection string, token, or key in source or committed config.
-- **Immutability breach**: an update or delete path on data the domain declares append-only or immutable (posted entries, audit logs).
 - **Test shape**: new behaviour without a test at the documented seam, or an integration test where the strategy says unit, and vice versa.
+
+**Project invariants**: when the repo has `docs/agents/invariants.md`, every entry in it joins the baseline and is treated exactly as a baseline invariant is.
 
 ### 4. Spawn the sub-agents in parallel
 
 **Standards sub-agent prompt** should include:
 
 - The full diff command and commit list.
-- The list of standards-source files you found in step 3, **plus the smell baseline pasted in full** (the sub-agent has no other access to it).
+- The list of standards-source files you found in step 3, the pack's house opinions pasted as documented standards, **plus the smell baseline pasted in full** (the sub-agent has no other access to it).
 - The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
 
 - The diff command and commit list.
 - The fetched contents of the agent brief and, where present, the parent spec.
-- The brief: "Report: (a) acceptance criteria the brief asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep), including anything the brief listed as out of scope; (c) criteria that look implemented but where the implementation looks wrong; (d) whether the brief's contract impact matches what the diff actually changes on the HTTP surface. Quote the brief line for each finding. Under 400 words."
+- The brief: "Report: (a) acceptance criteria the brief asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep), including anything the brief listed as out of scope; (c) criteria that look implemented but where the implementation looks wrong; (d) whether the brief's contract impact matches what the diff actually changes in contracts other deployables consume (HTTP APIs, event or message schemas, shared schemas). Quote the brief line for each finding. Under 400 words."
 
 **Architecture sub-agent prompt** should include:
 
 - The diff command and commit list.
-- The list of architecture-source files and ADRs from step 3, the architecture test command, **plus the invariant baseline pasted in full**.
-- The brief: "First run the architecture test command and report its result verbatim. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any baseline invariant breach: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
+- The list of architecture-source files and ADRs from step 3, the pack's architecture-rule enforcement and the commands that check it, pasted, **plus the invariant baseline and every entry of `docs/agents/invariants.md` pasted in full**.
+- The brief: "First run the commands that check the architecture rules (structure, contract, and latency-budget checks alike) and report each result verbatim, labelled by kind. Then report, per hunk: (a) every place the diff breaks a documented rule or contradicts an ADR: cite the doc and the rule; (b) any breach of a baseline or project invariant: name it and quote the hunk; (c) any decision in the diff that meets the ADR bar (hard to reverse, surprising without context, a real trade-off) but has no ADR. A documented rule overrides the baseline. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
@@ -92,7 +96,7 @@ If the spec is missing, skip the Spec sub-agent and note this in the final repor
 
 Present the three reports under `## Standards`, `## Spec`, and `## Architecture` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the axes are deliberately separate (see _Why three axes_).
 
-End with a one-line summary per axis: total findings and the worst issue _within that axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent. A failing architecture test is reported as the worst issue on its axis regardless of anything else the sub-agent found.
+End with a one-line summary per axis: total findings and the worst issue _within that axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent. A failing architecture-rule check is reported as the worst issue on its axis regardless of anything else the sub-agent found.
 
 ## Why three axes
 
@@ -100,6 +104,6 @@ A change can pass two axes and fail the third:
 
 - Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
 - Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
-- Code that is clean and correct but reaches across a module boundary or bypasses tenant scoping → **Standards pass, Spec pass, Architecture fail.** This is the failure that ships silently: nothing in the feature's own tests notices.
+- Code that is clean and correct but reaches past another module's interface or breaks a project invariant → **Standards pass, Spec pass, Architecture fail.** This is the failure that ships silently: nothing in the feature's own tests notices.
 
 Reporting them separately stops one axis from masking another.

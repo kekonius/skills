@@ -13,15 +13,17 @@ Every step has a stop condition. A stop is a report, never a workaround: a red c
 
 ### 1. Identify what this branch closes
 
-Collect the issue numbers from, in order: the argument the user passed, the branch name (`feat/123-slug`), `Closes #n` in commits already on the branch, and the agent brief loaded in context. Fetch each with `gh issue view <n> --json title,state,body` and note the brief's **contract impact** line.
+Collect the issue numbers from, in order: the argument the user passed, the branch name (`feat/123-slug`), `Closes #n` in commits already on the branch, and the agent brief loaded in context. Fetch each with `gh issue view <n> --json title,state,body` and note each entry of the brief's **contract impact**: the changed contract and the repos that consume it.
 
 **Done when:** you can name every issue this PR closes, or you have confirmed with the user that it closes none.
 
 ### 2. Verify
 
-Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, the defaults are `dotnet build`, `dotnet test`, and `dotnet format --verify-no-changes` for a .NET repo, and `pnpm typecheck && pnpm lint && pnpm test && pnpm build` for a pnpm repo. Architecture tests are part of the suite, never skipped.
+Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps its CI workflow runs, whichever is more complete. When neither is documented, call the Skill tool with "stack-conventions" and run the pack's default verify commands. Whatever enforces the repo's architecture rules runs as part of verification, never skipped: structure tests, compiler visibility, a linter, contract tests (including consumer-driven contract tests between separately deployed services), and latency-budget tests that guard a quality-attribute scenario.
 
 **Stop if** anything is red. Report the failing output and stop; the fix is an `implement` loop, not a shipping step.
+
+**Done when:** every check is green and you can name each kind of architecture-rule check that ran.
 
 ### 3. Commit what is outstanding
 
@@ -39,13 +41,16 @@ Run the repo's full verification: the commands `CLAUDE.md` lists, or the steps i
 gh pr create --base <base> --title "<commit-style title>" --body "$(cat <<'EOF'
 <what changed and why, three to eight lines, in the repo's domain vocabulary>
 
+Contract impact:
+- <contract>: <what changed>. Consumers: <repos>
+
 Closes #<n>
 Closes #<m>
 EOF
 )"
 ```
 
-One `Closes #n` line per issue from step 1. A draft PR is marked ready with `gh pr ready`.
+One `Closes #n` line per issue from step 1. The contract impact block lists every entry from step 1, and is omitted when the impact is none. A draft PR is marked ready with `gh pr ready`.
 
 **Done when:** the PR exists, is not a draft, targets the base branch, and its body names every issue.
 
@@ -83,7 +88,8 @@ git branch -D <branch>
 
 ### 9. Report
 
-Five lines or fewer: the PR URL, the merge commit, the issues closed, the backlog task ticked (or "no backlog"), and one of:
+Six lines or fewer, plus one line per contract-impact entry: the PR URL, the merge commit, the issues closed, the backlog task ticked (or "no backlog"), the kinds of architecture-rule check that ran, and each of these that applies:
 
 - **Contract impact: none.** Done.
-- **Contract impact: changes the OpenAPI surface.** The frontend client is now stale. When this ship was reached from `contract-change`, that skill continues; otherwise tell the user to open a session in the frontend repo and run `/contract-change <this PR number>` so the seam gets closed.
+- **Contract impact: changes the OpenAPI surface a frontend consumes through a generated client.** The frontend client is now stale. When this ship was reached from `contract-change`, that skill continues; otherwise tell the user to open a session in the frontend repo and run `/contract-change <this PR number>` so the seam gets closed.
+- **Contract impact: any other contract.** For each entry, name the changed contract and its consuming repos, and tell the user each of those repos needs a follow-up change. Nothing here makes that change.

@@ -21,7 +21,7 @@ Study the relevant existing code, the patterns already in use, the binding archi
 
 ### 2. Plan, with an ordered task list
 
-Produce a short plan plus an **implementation-ordered** checklist: the smallest sensible units, in the order they are built and tested, each one a vertical slice that ends green. Name the **seams** the tests go at (the `tdd` skill requires them pre-agreed). Name any decision that will need an ADR. State the **contract impact**: none, or the endpoints that change. Track the list with your in-session todo list.
+Produce a short plan plus an **implementation-ordered** checklist: the smallest sensible units, in the order they are built and tested, each one a vertical slice that ends green. Name the **seams** the tests go at (the `tdd` skill requires them pre-agreed). Name any decision that will need an ADR. State the **contract impact**: none, or each contract another deployable consumes that changes, with its consuming repos. Track the list with your in-session todo list.
 
 ### 3. STOP and get approval
 
@@ -41,7 +41,7 @@ When a decision made while building meets the ADR bar (hard to reverse, surprisi
 
 ### 6. Verify
 
-Build, then run the full test suite, the architecture tests, and the format check. Everything green.
+Run the repo's full verification as `ship` defines it: the documented commands, or the pack's default verify commands from "stack-conventions", including whatever enforces the architecture rules. Everything green.
 
 **Stop if** anything is red: fix it within the loop, or if the fix changes the plan, go back to the user.
 

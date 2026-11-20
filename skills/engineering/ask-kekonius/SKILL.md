@@ -14,7 +14,7 @@ A **flow** is a path through the skills. Most paths run along one **main flow**,
 
 The route most work travels. You have an idea and want it built and merged.
 
-1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a repo**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No repo? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive.) When the change touches auth, tenancy, or money, it pulls in **`/threat-model`** so the STRIDE pass happens before the spec, not after the PR.
+1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a repo**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No repo? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive.) When the change touches auth, tenancy, or money, it pulls in **`/threat-model`** so the STRIDE pass happens before the spec, not after the PR. When it touches events between modules or services, a latency or availability target, or a service split, it pulls in **`/quality-attributes`** so the vital few are measurable before the spec.
 2. **Branch: can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through **`/prototype`**, bridged by **`/handoff`** in both directions (a prototype lives in its own directory; see Phase boundaries).
 3. **Branch: is this a multi-session build?**
    - **Yes** → **`/to-spec`** (turn the thread into a spec issue), then **`/to-tickets`** to split it into tracer-bullet tickets on GitHub, each `ready-for-agent`, each declaring its blocking edges. Then either:
@@ -64,6 +64,8 @@ Model-invoked references that run *beneath* the other skills, each the single so
 
 - **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word, record a hard-to-reverse decision as an ADR in the repo's ADR directory. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
 - **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
+- **`/stack-conventions`** maps that vocabulary onto the repo's languages: one pack per language (seams, architecture-rule enforcement, tests and doubles, verify commands), loaded by path from `docs/agents/stack.md`. `/tdd`, `/code-review`, and `/ship` pull it in.
+- **`/quality-attributes`** turns "fast" or "available" into the vital few six-part scenarios a check can fail on, with tactics, and a module-integration reference for events, data ownership, sagas, contracts, and splitting or merging services.
 - **`/threat-model`** is the STRIDE facilitator for one endpoint or workflow. It asks first and fills gaps second; it never writes the model for you. `/grill-with-docs` reaches for it when a change touches auth, tenancy, or money.
 
 ## Phase boundaries

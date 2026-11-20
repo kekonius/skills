@@ -48,27 +48,14 @@ This works whether the user is here to push back or not.
 Draft each variant. Hold each one to:
 
 - The page's purpose and the data it has access to.
-- The project's component library / styling system (in the turborepo: the shared shadcn-on-Base-UI primitives from `@repo/ui` and Tailwind v4; elsewhere, whatever the project uses).
-- A clear exported component name, e.g. `VariantA`, `VariantB`, `VariantC`.
+- The project's UI primitives and styling system (the pack from "stack-conventions" names them).
+- A clear exported name per variant, e.g. `VariantA`, `VariantB`, `VariantC`.
 
 Variants must be **structurally different**: different layout, different information hierarchy, different primary affordance, not just different colours. Three slightly-tweaked card grids isn't a UI prototype, it's wallpaper. If two drafts come out too similar, redo one with explicit "do not use a card grid" guidance.
 
 ### 3. Wire them together
 
-Create a single switcher component on the route:
-
-```tsx
-// pseudo-code, adapt to the project's framework
-const variant = searchParams.get('variant') ?? 'A';
-return (
-  <>
-    {variant === 'A' && <VariantA {...data} />}
-    {variant === 'B' && <VariantB {...data} />}
-    {variant === 'C' && <VariantC {...data} />}
-    <PrototypeSwitcher variants={['A','B','C']} current={variant} />
-  </>
-);
-```
+Create a single switcher on the route: it reads `?variant=` (default `A`), renders the matching variant with the page's data, and mounts the floating switcher below it. The pack shows the shape in the project's framework.
 
 For sub-shape A (existing page): keep all the existing data fetching above the switcher; only the rendered subtree changes per variant.
 
@@ -84,12 +71,12 @@ A small fixed-position bar at the bottom-centre of the screen with three pieces:
 
 Behaviour:
 
-- Clicking an arrow updates the URL search param (use the project's router: `navigate({ search })` on TanStack Router, `router.replace` on Next, `navigate` on React Router) so the variant is shareable and reload-stable.
+- Clicking an arrow updates the URL search param through the project's router, so the variant is shareable and reload-stable.
 - Keyboard: `←` and `→` arrow keys also cycle. Don't intercept arrow keys when an `<input>`, `<textarea>`, or `[contenteditable]` is focused.
 - Visually distinct from the page (e.g. high-contrast pill, subtle shadow) so it's obviously not part of the design being evaluated.
-- Hidden in production builds: gate on `import.meta.env.DEV` (Vite) or `process.env.NODE_ENV !== 'production'`, so a stray prototype merge can't ship the bar to users.
+- Hidden in production builds: gate on the build's development flag (the pack names it), so a stray prototype merge can't ship the bar to users.
 
-Put the switcher in a single shared component so both sub-shapes can reuse it. Locate it wherever shared UI lives in the project.
+Put the switcher in a single shared module so both sub-shapes can reuse it. Locate it wherever shared UI lives in the project.
 
 ### 5. Hand it over
 
@@ -102,7 +89,7 @@ Once a variant has won, capture the answer (which variant and why), then capture
 - **Sub-shape A**: fold the winner into the existing page; drop the losing variants and the switcher from main.
 - **Sub-shape B**: promote the winning variant to a real route; drop the throwaway route and the switcher from main.
 
-The full set of variants is the primary source, so it lands on the throwaway branch, not the bin, since variant components and the switcher left in the main branch rot fast and confuse the next reader.
+The full set of variants is the primary source, so it lands on the throwaway branch, not the bin, since variant code and the switcher left in the main branch rot fast and confuse the next reader.
 
 ## Anti-patterns
 

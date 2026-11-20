@@ -1,6 +1,6 @@
 # kekonius-skills
 
-Claude Code skills for one engineer's loop: idea → grilling → spec → tickets → implement → review → ship. Built for .NET modular monoliths and a pnpm + Turborepo React frontend, with GitHub Issues as the tracker.
+Claude Code skills for one engineer's loop: idea → grilling → spec → tickets → implement → review → ship. Works in any language and any architecture, from a modular monolith to separately deployed services across several repos: language specifics live in stack packs (C#, Rust, Python, TypeScript, React), project rules in per-repo config. GitHub Issues is the tracker.
 
 Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT). Same structure, same conventions, skills rewritten for this workflow.
 
@@ -20,7 +20,7 @@ git clone https://github.com/kekonius/skills ~/dev/skills
 ~/dev/skills/scripts/link-skills.sh
 ```
 
-Then, once per repo, run `/setup-kekonius-skills` to configure labels, ADR layout, and the backlog file.
+Then, once per repo, run `/setup-kekonius-skills` to configure labels, ADR layout, the backlog file, stack packs, project invariants, and quality attributes.
 
 ## Reference
 
@@ -33,8 +33,8 @@ Skills for daily code work.
 **User-invoked**
 
 - **[ask-kekonius](./skills/engineering/ask-kekonius/SKILL.md)**: Ask which skill or flow fits your situation. A router over the skills in this repo.
-- **[setup-kekonius-skills](./skills/engineering/setup-kekonius-skills/SKILL.md)**: Configure this repo for the engineering skills (GitHub labels, PR conventions, ADR layout, backlog file). Run once per repo.
-- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline, with a threat-model pass when the change touches auth, tenancy, or money.
+- **[setup-kekonius-skills](./skills/engineering/setup-kekonius-skills/SKILL.md)**: Configure this repo for the engineering skills (GitHub labels, PR conventions, ADR layout, backlog file, stack packs, project invariants, quality attributes). Run once per repo.
+- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline, with a threat-model pass when the change touches auth, tenancy, or money, and a quality-attributes pass when it touches events between modules or services, a latency or availability target, or a service split.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it as a GitHub issue. No interview, just synthesis, with a contract-impact section.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break a plan, spec, or conversation into tracer-bullet tickets on GitHub: sub-issues of the spec, native blocking edges, an agent brief each, labelled `ready-for-agent`.
 - **[pick-up](./skills/engineering/pick-up/SKILL.md)**: List the `ready-for-agent` frontier, pick a ticket, claim it, branch off a fresh base, and load its brief for `implement`.
@@ -51,14 +51,16 @@ Skills for daily code work.
 - **[prototype](./skills/engineering/prototype/SKILL.md)**: Build a throwaway prototype to answer a design question: a single shareable HTML file for state/logic, or several toggleable UI variations on one route.
 - **[diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md)**: Disciplined diagnosis loop for hard bugs and performance regressions: build a feedback loop that goes red on this bug → minimise → hypothesise → instrument → fix → regression-test.
 - **[research](./skills/engineering/research/SKILL.md)**: Investigate a question against high-trust primary sources and capture the findings as a cited Markdown file in the repo, run as a background agent.
-- **[tdd](./skills/engineering/tdd/SKILL.md)**: Test-driven development with a red-green loop, one vertical slice at a time, at pre-agreed seams. xUnit and Vitest examples; a control needs a test that fails when the control is removed.
+- **[tdd](./skills/engineering/tdd/SKILL.md)**: Test-driven development with a red-green loop, one vertical slice at a time, at pre-agreed seams, with test tooling and examples from the stack pack; a control needs a test that fails when the control is removed.
 - **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**: Actively build and sharpen a project's domain model by challenging terms, stress-testing with scenarios, and updating `CONTEXT.md` and `docs/decisions/ADR-NNNN` inline.
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: small interfaces, clean seams, testable through the interface, within the seams the architecture rules fix.
+- **[stack-conventions](./skills/engineering/stack-conventions/SKILL.md)**: How this repo's languages express seams, architecture rules, tests, test doubles, and verify commands, through one pack per language (C#, Rust, Python, TypeScript, React) mapped to paths in `docs/agents/stack.md`. Only the matching packs load.
+- **[quality-attributes](./skills/engineering/quality-attributes/SKILL.md)**: Specify a module's or service's vital few quality attributes as measurable six-part scenarios and pick tactics for them, with a module-integration reference for events and messaging between modules or services, data ownership, sagas, contracts, and splitting or merging services.
 - **[ship](./skills/engineering/ship/SKILL.md)**: Close the loop on a finished branch: verify, commit, push, PR, wait for CI, merge, confirm the issues closed, tick the backlog, clean up. Reached by `implement`, `implement-spec`, and `contract-change`, or by asking to ship.
 - **[resolving-merge-conflicts](./skills/engineering/resolving-merge-conflicts/SKILL.md)**: Work through an in-progress git merge or rebase conflict hunk by hunk, resolving by intent traced to each side's primary source, then finish the operation, never `--abort`.
 - **[wizard](./skills/engineering/wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, credentials or CI secrets, an unfamiliar third-party dashboard, a one-off migration or cutover.
 - **[threat-model](./skills/engineering/threat-model/SKILL.md)**: Facilitate a STRIDE threat model for one endpoint or workflow: asks first, fills gaps second, turns every mitigation into a named test, never writes the model for you.
-- **[code-review](./skills/engineering/code-review/SKILL.md)**: Three-axis review of the diff since a fixed point: **Standards** (repo coding standards plus a Fowler smell baseline), **Spec** (does it implement the agent brief?), and **Architecture** (architecture tests, binding docs, ADRs, tenancy and immutability invariants), run as parallel sub-agents.
+- **[code-review](./skills/engineering/code-review/SKILL.md)**: Three-axis review of the diff since a fixed point: **Standards** (repo coding standards plus a Fowler smell baseline), **Spec** (does it implement the agent brief?), and **Architecture** (architecture tests, binding docs, ADRs, invariants, including the repo's own from `docs/agents/invariants.md`), run as parallel sub-agents.
 
 ### Productivity
 

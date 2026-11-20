@@ -11,18 +11,18 @@ Your role here is facilitator, not author. Ask, prompt, and challenge. The user'
 
 1. **Scope it.** Ask which endpoint or workflow. Refuse to model the whole system at once: one flow at a time.
 
-2. **Draw the flow.** List actors, data stores, and trust boundaries for that flow. This part you can do, since it is descriptive, not analytical. In a multi-tenant system the tenancy tree is a trust boundary of its own: name which node scope each actor holds. Confirm the drawing with the user before moving on.
+2. **Draw the flow.** List actors, data stores, and trust boundaries for that flow. This part you can do, since it is descriptive, not analytical. In a multi-tenant system each tenant's scope is a trust boundary of its own: name which tenant scope each actor holds. Confirm the drawing with the user before moving on.
 
 3. **Walk STRIDE, one letter at a time.** For each category, ask the user what they see first. Wait for an answer. Then, and only then, add what they missed.
 
-   - **S**poofing: can an actor claim to be someone else, or another node?
+   - **S**poofing: can an actor claim to be someone else, or act for another tenant?
    - **T**ampering: can data change without detection?
    - **R**epudiation: can someone deny an action they took?
-   - **I**nformation disclosure: who can read what they should not, including across the tenancy tree?
+   - **I**nformation disclosure: who can read what they should not, including across tenants?
    - **D**enial of service: what starves or blocks the flow?
-   - **E**levation of privilege: how does a low-privilege user, or a user on one node, gain more?
+   - **E**levation of privilege: how does a low-privilege user, or a user in one tenant, gain more?
 
-   In a financial or accounting workflow, spend the most time on **T**, **R**, and **E**. That is where fraud lives. In a multi-tenant workflow, **I** and **E** across nodes come next.
+   In a financial or accounting workflow, spend the most time on **T**, **R**, and **E**. That is where fraud lives. In a multi-tenant workflow, **I** and **E** across tenants come next.
 
 4. **Rate and decide.** For each threat: likelihood, impact, and one of mitigate / accept / transfer. Push back on "mitigate" for everything: accepting a risk deliberately and writing down why is a senior move, and the write-up needs at least one.
 
@@ -37,4 +37,4 @@ Your role here is facilitator, not author. Ask, prompt, and challenge. The user'
 - Producing a complete list before the user has tried. This is the main failure mode.
 - Generic OWASP items with no connection to this flow's specifics.
 - Treating "we use HTTPS" as a mitigation for tampering by an authenticated insider.
-- Treating the EF Core query filter as a mitigation for cross-node disclosure without a test that proves the filter is applied on this query path.
+- Treating an automatic scoping filter (an ORM global filter, row-level security) as a mitigation for cross-tenant disclosure without a test that proves the filter is applied on this query path.
