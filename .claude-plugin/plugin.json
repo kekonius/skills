@@ -38,6 +38,7 @@
     "./skills/engineering/tdd",
     "./skills/engineering/domain-modeling",
     "./skills/engineering/codebase-design",
+    "./skills/engineering/stack-conventions",
     "./skills/engineering/code-review",
     "./skills/engineering/prototype",
     "./skills/engineering/diagnosing-bugs",
