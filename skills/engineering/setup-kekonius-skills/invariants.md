@@ -1,6 +1,6 @@
 # Project invariants
 
-Rules this repo holds on top of `code-review`'s invariant baseline (interface bypass, layer inversion, secrets in code, test shape). `code-review` pastes every entry into its Architecture sub-agent and treats a breach exactly as it treats a baseline breach.
+Rules this repo holds on top of `code-review`'s invariant baseline (interface bypass, layer inversion, non-idempotent consumer, foreign write, secrets in code, test shape). `code-review` pastes every entry into its Architecture sub-agent and treats a breach exactly as it treats a baseline breach.
 
 Write each entry as one line in the baseline's shape: **Name**: the breach to look for, with the concrete forms it takes in this codebase.
 

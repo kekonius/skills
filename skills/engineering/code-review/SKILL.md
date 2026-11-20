@@ -63,6 +63,8 @@ The Architecture axis always carries the **invariant baseline** below, which app
 
 - **Interface bypass**: a module referencing another module's internals rather than its interface.
 - **Layer inversion**: domain code depending on infrastructure (an ORM, a bus, a framework) rather than the other way round.
+- **Non-idempotent consumer**: a handler for an integration event or message that changes state with no guard against redelivery (no processed-message record, no natural idempotency).
+- **Foreign write**: a write into data another module or service owns (its tables, its schema, its database) instead of a call to the owner's interface or an event the owner consumes.
 - **Secrets in code**: a connection string, token, or key in source or committed config.
 - **Test shape**: new behaviour without a test at the documented seam, or an integration test where the strategy says unit, and vice versa.
 
