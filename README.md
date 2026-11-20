@@ -83,4 +83,4 @@ Beta skills live in [`skills/in-progress/`](./skills/in-progress/README.md). The
 
 ## Repo conventions
 
-See [CLAUDE.md](./CLAUDE.md) for the rules this repo follows, [.agents/invocation.md](./.agents/invocation.md) for the invocation model, and [.agents/adr/](./.agents/adr/) for why it is shaped this way. `scripts/check-consistency.sh` checks that every skill is listed where it should be and nowhere else; CI runs it on every push.
+See [CLAUDE.md](./.claude/CLAUDE.md) for the rules this repo follows, [.agents/invocation.md](./.agents/invocation.md) for the invocation model, and [.agents/adr/](./.agents/adr/) for why it is shaped this way. `scripts/check-consistency.sh` checks that every skill is listed where it should be and nowhere else; CI runs it on every push.
