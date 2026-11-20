@@ -64,6 +64,7 @@ Model-invoked references that run *beneath* the other skills, each the single so
 
 - **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word, record a hard-to-reverse decision as an ADR in the repo's ADR directory. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
 - **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
+- **`/stack-conventions`** maps that vocabulary onto the repo's languages: one pack per language (seams, architecture-rule enforcement, tests and doubles, verify commands), loaded by path from `docs/agents/stack.md`. `/tdd`, `/code-review`, and `/ship` pull it in.
 - **`/threat-model`** is the STRIDE facilitator for one endpoint or workflow. It asks first and fills gaps second; it never writes the model for you. `/grill-with-docs` reaches for it when a change touches auth, tenancy, or money.
 
 ## Phase boundaries

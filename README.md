@@ -1,6 +1,6 @@
 # kekonius-skills
 
-Claude Code skills for one engineer's loop: idea → grilling → spec → tickets → implement → review → ship. Built for .NET modular monoliths and a pnpm + Turborepo React frontend, with GitHub Issues as the tracker.
+Claude Code skills for one engineer's loop: idea → grilling → spec → tickets → implement → review → ship. Works in any language and any architecture, from a modular monolith to separately deployed services across several repos: language specifics live in stack packs (C#, Rust, Python, TypeScript, React), project rules in per-repo config. GitHub Issues is the tracker.
 
 Adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (MIT). Same structure, same conventions, skills rewritten for this workflow.
 
@@ -20,7 +20,7 @@ git clone https://github.com/kekonius/skills ~/dev/skills
 ~/dev/skills/scripts/link-skills.sh
 ```
 
-Then, once per repo, run `/setup-kekonius-skills` to configure labels, ADR layout, and the backlog file.
+Then, once per repo, run `/setup-kekonius-skills` to configure labels, ADR layout, the backlog file, stack packs, and project invariants.
 
 ## Reference
 

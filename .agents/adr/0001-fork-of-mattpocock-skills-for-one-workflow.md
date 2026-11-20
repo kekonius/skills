@@ -33,3 +33,7 @@ The author's environment, established by inspection rather than interview:
 ## Update, 2026-09-15: `ship` is model-invoked
 
 The inventory listed `ship` as user-invoked. While writing `implement` it became clear that `implement`, `implement-spec`, and `contract-change` all end by handing off to it, and a user-invoked skill cannot be reached by another skill. `ship` is therefore model-invoked, with a description whose user-facing triggers are narrow (ship, merge, open the PR) and whose other branch is the hand-off from those three flows. The same reasoning will apply to any other skill a flow must reach. `.agents/invocation.md` records the rule.
+
+## Update, 2026-11-20: stack assumptions superseded
+
+The **Stack** bullet above no longer shapes the skills. [ADR 0002](./0002-generic-multi-language.md) makes them language- and project-neutral, with language specifics in `stack-conventions` packs and product facts in per-repo configuration.
