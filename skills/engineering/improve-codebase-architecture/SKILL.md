@@ -52,7 +52,7 @@ Present the candidates in the conversation as a numbered list, strongest first. 
 
 End with a **Top recommendation**: which candidate you'd tackle first and why.
 
-**Use `CONTEXT.md` vocabulary for the domain, and the `codebase-design` vocabulary for the architecture.** If `CONTEXT.md` defines "Journal entry," talk about "the posting module," not "the `PostEntryConsumer`," and not "the posting service."
+**Use `CONTEXT.md` vocabulary for the domain, and the `codebase-design` vocabulary for the architecture.** If `CONTEXT.md` defines "Refund," talk about "the refunds module," not "the `RefundOrderHandler`," and not "the refund service" unless it is deployed separately.
 
 **ADR conflicts**: if a candidate contradicts an existing ADR, only surface it when the friction is real enough to warrant revisiting the ADR. Say so plainly: _"contradicts ADR-0007, but worth reopening because…"_. Don't list every theoretical refactor an ADR forbids.
 

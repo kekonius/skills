@@ -9,17 +9,17 @@
 
 ## Language
 
-**Journal entry**:
+**Order**:
 {A one or two sentence description of the term}
-_Avoid_: Voucher, transaction
+_Avoid_: Purchase, cart
 
-**Posting**:
-The act that makes a journal entry immutable and mints its verification number.
-_Avoid_: Saving, committing
+**Shipment**:
+The dispatch of some or all of an order's lines to one address.
+_Avoid_: Delivery, parcel
 
-**Node**:
-A tenant or company in the tenancy tree, identified by an id and a path.
-_Avoid_: Tenant, company, client (each names one kind of node, not the concept)
+**Customer**:
+A person or business that places orders, identified by an id.
+_Avoid_: User, client, account (each names one aspect, not the concept)
 ```
 
 ## Rules
@@ -28,7 +28,7 @@ _Avoid_: Tenant, company, client (each names one kind of node, not the concept)
 - **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
 - **Only include terms specific to this project's context.** General programming concepts (timeouts, error types, utility patterns) don't belong even if the project uses them extensively. Before adding a term, ask: is this a concept unique to this context, or a general programming concept? Only the former belongs.
 - **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.
-- **Swedish and English.** Where the domain term is Swedish (verifikation, räkenskapsår, kontoplan) and the code uses an English name, the entry is the English term with the Swedish word in the definition, so both are searchable and neither is ambiguous.
+- **Two languages.** Where the domain speaks a different language from the code (Swedish *verifikation*, *räkenskapsår* behind English names in code), the entry is the code's term with the domain's word in the definition, so both are searchable and neither is ambiguous.
 
 ## Single vs multi-context repos
 
@@ -41,15 +41,15 @@ _Avoid_: Tenant, company, client (each names one kind of node, not the concept)
 
 ## Contexts
 
-- [General Ledger](./src/Modules/GeneralLedger/CONTEXT.md): accounts, journal entries, fiscal years, verification numbers
-- [Identity](./src/Modules/Identity/CONTEXT.md): principals, sign-in, function grants
-- [Tenancy](./src/Modules/Tenancy/CONTEXT.md): the node tree and node settings
+- [Orders](./src/orders/CONTEXT.md): orders, order lines, shipments, refunds
+- [Payments](./src/payments/CONTEXT.md): charges, captures, payment providers
+- [Customers](./src/customers/CONTEXT.md): customers, addresses, sign-in
 
 ## Relationships
 
-- **Tenancy → General Ledger**: every ledger row carries the node's path; the ledger never reads the tree directly
-- **Identity → General Ledger**: posting requires a function grant on the target node
-- **Shared kernel**: `Money`, `NodeId`, `PathLocator` are shared types, not owned by any context
+- **Customers → Orders**: every order carries the customer's id; Orders never reads the customer store directly
+- **Payments → Orders**: an order ships only after Payments confirms the capture
+- **Shared kernel**: `Money` and `CustomerId` are shared types, not owned by any context
 ```
 
 The skill infers which structure applies:

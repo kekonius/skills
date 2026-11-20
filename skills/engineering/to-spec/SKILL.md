@@ -37,7 +37,7 @@ A LONG, numbered list of user stories. Each user story should be in the format o
 1. As an <actor>, I want a <feature>, so that <benefit>
 
 <user-story-example>
-1. As an accountant on a client node, I want to post a journal entry that balances in SEK, so that the ledger stays correct under Bokföringslagen
+1. As a customer with a shipped order, I want to request a refund for one damaged item, so that I am not charged for something I could not use
 </user-story-example>
 
 This list of user stories should be extremely extensive and cover all aspects of the feature.

@@ -37,7 +37,7 @@ When the user uses a term that conflicts with the existing language in `CONTEXT.
 
 ### Sharpen fuzzy language
 
-When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the ledger Account or the user's sign-in? Those are different things."
+When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the customer's billing Account or their sign-in? Those are different things."
 
 ### Discuss concrete scenarios
 
@@ -45,7 +45,7 @@ When domain relationships are being discussed, stress-test them with specific sc
 
 ### Cross-reference with code and the binding docs
 
-When the user states how something works, check whether the code agrees, and whether an existing ADR or architecture doc already decided it. If you find a contradiction, surface it: "Your code posts entries as mutable, but ADR-0005 says posted entries are immutable. Which is right?" A decision that contradicts a binding doc is not made quietly: it is a new ADR that supersedes the old one, and the doc is updated to point at it.
+When the user states how something works, check whether the code agrees, and whether an existing ADR or architecture doc already decided it. If you find a contradiction, surface it: "Your code lets a shipped order be edited, but ADR-0005 says shipped orders are immutable. Which is right?" A decision that contradicts a binding doc is not made quietly: it is a new ADR that supersedes the old one, and the doc is updated to point at it.
 
 ### Update CONTEXT.md inline
 

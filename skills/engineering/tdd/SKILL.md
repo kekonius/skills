@@ -11,7 +11,7 @@ When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and 
 
 ## What a good test is
 
-Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: `Creator_cannot_approve_own_invoice` tells you exactly what rule exists, and it survives refactors because it doesn't care about internal structure.
+Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: `Customer_cannot_refund_an_unshipped_order` tells you exactly what rule exists, and it survives refactors because it doesn't care about internal structure.
 
 A good test:
 
@@ -32,7 +32,7 @@ Ask: "What's the public interface, and which seams should we test?"
 
 The usual seams, by layer:
 
-- **Domain**: the aggregate root's public methods. Pure, no I/O, fast. Invariants live here (balancing, immutability, gates).
+- **Domain**: the aggregate root's public methods. Pure, no I/O, fast. Invariants live here (totals that must agree, allowed state transitions, gates).
 - **Application**: the command consumer or query handler, with ports faked. Still no I/O.
 - **Infrastructure**: the repository, mapping, query filter, or outbox, against a real database in a container. Integration.
 - **API**: the endpoint through the HTTP host, for contract shape and status codes.
@@ -51,6 +51,6 @@ When the shape of that interface is itself in question (how deep the module is, 
 
 - **Red before green.** Write the failing test first, watch it fail for the right reason, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
-- **A control needs a test that fails when the control is removed.** For a security or tenancy rule, the red state is the attack succeeding; green is the attack refused.
+- **A control needs a test that fails when the control is removed.** For a security control (an authorization check, a data-scoping rule), the red state is the attack succeeding; green is the attack refused.
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
 - **Architecture rules stay green.** When the slice touches the dependencies between modules, run whatever enforces the rules (the pack names it) with the slice's tests.
