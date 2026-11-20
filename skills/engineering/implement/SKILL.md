@@ -21,7 +21,7 @@ Study the relevant existing code, the patterns already in use, the binding archi
 
 ### 2. Plan, with an ordered task list
 
-Produce a short plan plus an **implementation-ordered** checklist: the smallest sensible units, in the order they are built and tested, each one a vertical slice that ends green. Name the **seams** the tests go at (the `tdd` skill requires them pre-agreed). Name any decision that will need an ADR. State the **contract impact**: none, or the endpoints that change. Track the list with your in-session todo list.
+Produce a short plan plus an **implementation-ordered** checklist: the smallest sensible units, in the order they are built and tested, each one a vertical slice that ends green. Name the **seams** the tests go at (the `tdd` skill requires them pre-agreed). Name any decision that will need an ADR. State the **contract impact**: none, or each contract another deployable consumes that changes (an HTTP API, an event or message schema, a shared schema) with its consuming repos. Track the list with your in-session todo list.
 
 ### 3. STOP and get approval
 

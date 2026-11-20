@@ -17,7 +17,7 @@ An **agent brief** is the body of a ticket that is `ready-for-agent`, or the las
 
 **Explicit scope boundaries.** State what is out of scope, so the agent neither gold-plates nor guesses about adjacent features.
 
-**Contract impact stated.** Say whether the ticket changes the HTTP surface the frontend's generated client consumes. If it does, `ship` is replaced by `contract-change` for this ticket, and the brief says so.
+**Contract impact stated.** List every contract another deployable consumes that the ticket changes (an HTTP API, an integration event or message schema, a shared schema), each with its consuming repos, or say "none". An entry that changes the OpenAPI surface a frontend consumes through a generated client means `ship` is replaced by `contract-change` for this ticket, and the brief says so.
 
 ## Template
 
@@ -38,7 +38,7 @@ What should happen after the work is done. Specific about edge cases and error c
 - `Method()` contract: what it returns now vs what it should return
 - Configuration or schema shape: anything new
 
-**Contract impact:** none / changes the OpenAPI surface (list the endpoints)
+**Contract impact:** none / one line per changed contract: `<contract>` (HTTP API, event or message schema, or shared schema): what changes. Consumers: <repos>
 
 **Acceptance criteria:**
 - [ ] Specific, testable criterion

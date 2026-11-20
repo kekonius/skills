@@ -32,7 +32,7 @@ Break the work into **tracer bullet** tickets.
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit in a single fresh context window
 - Any prefactoring should be done first
-- A slice that changes the HTTP contract says so in its brief, so it ships with `contract-change`
+- A slice that changes a contract another deployable consumes says so in its brief's contract impact; one that changes the OpenAPI surface a frontend consumes through a generated client ships with `contract-change`
 
 </vertical-slice-rules>
 
@@ -47,7 +47,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
-- **Contract impact**: none, or the endpoints it changes
+- **Contract impact**: none, or each contract it changes and the repos that consume it
 
 Ask the user:
 

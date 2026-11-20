@@ -60,7 +60,11 @@ Exception: if a prototype produced a snippet that encodes a decision more precis
 
 ## Contract Impact
 
-Whether this spec changes the HTTP surface a frontend consumes through a generated client. Either "none" or the list of endpoints added, changed, or removed. When it is not "none", the tickets that touch those endpoints ship with `contract-change` rather than `ship`.
+Every contract another deployable consumes that this spec adds, changes, or removes: an HTTP API, an integration event or message schema, a shared schema. Either "none", or one entry per changed contract:
+
+- **<contract>** (HTTP API, event or message schema, or shared schema): what is added, changed, or removed. Consumers: <the repos that consume it>.
+
+The tickets behind an entry that changes the OpenAPI surface a frontend consumes through a generated client ship with `contract-change` rather than `ship`. For every other entry, `ship` names the consuming repos in the PR and flags the follow-up change each one needs.
 
 ## Testing Decisions
 

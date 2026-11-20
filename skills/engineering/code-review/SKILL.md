@@ -80,7 +80,7 @@ The Architecture axis always carries the **invariant baseline** below, which app
 
 - The diff command and commit list.
 - The fetched contents of the agent brief and, where present, the parent spec.
-- The brief: "Report: (a) acceptance criteria the brief asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep), including anything the brief listed as out of scope; (c) criteria that look implemented but where the implementation looks wrong; (d) whether the brief's contract impact matches what the diff actually changes on the HTTP surface. Quote the brief line for each finding. Under 400 words."
+- The brief: "Report: (a) acceptance criteria the brief asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep), including anything the brief listed as out of scope; (c) criteria that look implemented but where the implementation looks wrong; (d) whether the brief's contract impact matches what the diff actually changes in contracts other deployables consume (HTTP APIs, event or message schemas, shared schemas). Quote the brief line for each finding. Under 400 words."
 
 **Architecture sub-agent prompt** should include:
 
