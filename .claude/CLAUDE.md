@@ -9,9 +9,9 @@ Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must
 
 Each bucket folder has a `README.md` that lists every skill in the bucket with a one-line description, with the skill name linked to its `SKILL.md`. The promoted buckets' `README.md`s and the top-level `README.md` group entries into **User-invoked** and **Model-invoked**; non-promoted bucket `README.md`s use a flat list.
 
-Every `SKILL.md` is either user-invoked (`disable-model-invocation: true`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md). Claude Code is the only harness targeted, so there is no `agents/openai.yaml`; `AGENTS.md` is a symlink to this file so any other harness reads the same conventions.
+Every `SKILL.md` is either user-invoked (`disable-model-invocation: true`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](../.agents/invocation.md). Claude Code is the only harness targeted, so there is no `agents/openai.yaml`; `AGENTS.md` is a symlink to this file so any other harness reads the same conventions. This file lives at `.claude/CLAUDE.md` rather than the repo root because the repo root is also the plugin root, and `claude plugin validate --strict` rejects a root `CLAUDE.md` (a plugin never loads it); Claude Code reads `.claude/CLAUDE.md` as project instructions all the same.
 
-[`ask-kekonius`](./skills/engineering/ask-kekonius/SKILL.md) is the router that maps every user-reachable skill and how they relate. Whenever you add, rename, remove, or change how a user-reachable skill fits the flows, re-read its `SKILL.md` and update it so the map stays accurate: a new skill it never mentions, or a stale one it still routes to, is a router that lies.
+[`ask-kekonius`](../skills/engineering/ask-kekonius/SKILL.md) is the router that maps every user-reachable skill and how they relate. Whenever you add, rename, remove, or change how a user-reachable skill fits the flows, re-read its `SKILL.md` and update it so the map stays accurate: a new skill it never mentions, or a stale one it still routes to, is a router that lies.
 
 When writing or editing a skill, call the Skill tool with "writing-for-agents" first.
 
