@@ -1,6 +1,6 @@
 ---
 name: setup-kekonius-skills
-description: "Configure this repo for the engineering skills: GitHub labels, pull request conventions, domain doc layout, the backlog file, stack packs, and project invariants. Run once per repo before first use of the other engineering skills."
+description: "Configure this repo for the engineering skills: GitHub labels, pull request conventions, domain doc layout, the backlog file, stack packs, project invariants, and quality attributes. Run once per repo before first use of the other engineering skills."
 disable-model-invocation: true
 ---
 
@@ -13,6 +13,7 @@ Scaffold the per-repo configuration the engineering skills assume:
 - **Domain docs**: where `CONTEXT.md` and ADRs live, and the rules for reading them.
 - **Stack**: which stack packs `stack-conventions` loads for which paths.
 - **Invariants**: project rules `code-review` holds on every diff, on top of its baseline.
+- **Quality attributes**: the repo's vital few, as ranked six-part scenarios.
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
@@ -37,6 +38,7 @@ Read whatever exists; don't assume:
 - Served API document: a backend that exposes `/openapi/*.json` (or `/swagger/*.json`). Note the route and the host's run command.
 - Monorepo signals: a workspace manifest (`pnpm-workspace.yaml`, a `workspaces` field, a Cargo workspace, a solution with several module projects) whose modules each look like their own context. Present only in a genuinely multi-context repo; their absence means single-context, which is almost every repo.
 - Project invariants: rules a binding architecture or convention doc declares that a reviewer must hold on every change (data scoping, append-only records, writes into another module's data), and `docs/agents/invariants.md` if it exists.
+- Quality signals: stated targets (an SLA, timeouts, rate limits), load or latency tests, health checks, the deploy cadence and rollout steps in CI, a binding doc that names the system's priorities, and `docs/agents/quality-attributes.md` if it exists.
 
 **Done when:** every bullet above has a finding, present or absent.
 
@@ -72,6 +74,8 @@ On **no**, record that the backlog is retired and the file is left alone.
 
 On **yes**, propose the invariants exploration found, each as one line in the template's shape, and offer the template's worked examples (scoping bypass, immutability breach) when the repo is multi-tenant or keeps append-only records. On **no**, write no file.
 
+**Section H: Quality attributes.** Call the Skill tool with "quality-attributes" for the scenario format and the vital-few discipline. Propose the repo's top 3 to 5 attributes from the quality signals exploration found, each as a six-part scenario with a measurable response measure, its importance and difficulty, and the check that guards it (or "not yet"). Ask one question: are these the right few, with the right measures? Iterate until the user has confirmed every response measure. Skip, saying why, when the user says the repo has no runtime targets worth ranking.
+
 **Done when:** every section has an answer or was skipped for a stated reason.
 
 ### 3. Confirm and edit
@@ -79,7 +83,7 @@ On **yes**, propose the invariants exploration found, each as one line in the te
 Show the user a draft of:
 
 - The `## Agent skills` block to add to `CLAUDE.md` or `AGENTS.md` (see step 4 for which)
-- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, `docs/agents/agent-brief.md`, `docs/agents/stack.md`, and, when they ran, `docs/agents/contract-seams.md` (Section E) and `docs/agents/invariants.md` (Section G)
+- The contents of `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`, `docs/agents/agent-brief.md`, `docs/agents/stack.md`, and, when they ran, `docs/agents/contract-seams.md` (Section E), `docs/agents/invariants.md` (Section G), and `docs/agents/quality-attributes.md` (Section H)
 
 Let them edit before writing.
 
@@ -125,6 +129,10 @@ Tickets that are `ready-for-agent` carry a brief in the format in `docs/agents/a
 ### Invariants
 
 [only when Section G produced entries: one line naming them]. See `docs/agents/invariants.md`.
+
+### Quality attributes
+
+[only when Section H ran: the attributes, highest importance first]. See `docs/agents/quality-attributes.md`.
 ```
 
 Then write the docs files from the seed templates in this skill folder, filling in what step 2 settled:
@@ -136,6 +144,7 @@ Then write the docs files from the seed templates in this skill folder, filling 
 - [contract-seams.md](./contract-seams.md): one row per generated client, only when Section E ran
 - [stack.md](./stack.md): the path-to-packs mapping from Section F
 - [invariants.md](./invariants.md): the entries confirmed in Section G, with the worked-examples section removed, only when Section G produced entries
+- [quality-attributes.md](./quality-attributes.md): the scenarios confirmed in Section H, only when it ran
 
 Create any missing triage labels now, per Section B.
 
@@ -143,4 +152,4 @@ Create any missing triage labels now, per Section B.
 
 ### 5. Done
 
-Tell the user the setup is complete and that `to-spec`, `to-tickets`, `triage`, `wayfinder`, `pick-up`, `ship`, `code-review`, `stack-conventions`, and `contract-change` now read from `docs/agents/`. They can edit those files directly later; re-running this skill is only needed to start from scratch.
+Tell the user the setup is complete and that `to-spec`, `to-tickets`, `triage`, `wayfinder`, `pick-up`, `ship`, `code-review`, `stack-conventions`, `quality-attributes`, and `contract-change` now read from `docs/agents/`. They can edit those files directly later; re-running this skill is only needed to start from scratch.
